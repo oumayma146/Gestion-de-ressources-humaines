@@ -16,6 +16,7 @@ import React, { useEffect, useState } from 'react'
 import { MultiSelect } from 'react-multi-select-component'
 import { useDispatch, useSelector } from 'react-redux'
 import { getLanguge, getSkill } from 'src/store/action/configuration'
+import Select from 'react-select'
 
 export default function MoreInfoFrom({
   Education,
@@ -34,6 +35,8 @@ export default function MoreInfoFrom({
   setNhour,
   Rnumber,
   setRnumber,
+  type,
+  setType
 }) {
   const [educ, seteduc] = useState('')
   const dispatch = useDispatch()
@@ -188,10 +191,8 @@ export default function MoreInfoFrom({
             </CCol>
             <CFormLabel>Type</CFormLabel>
             <CCol sm={10}>
-              <CFormSelect
-                onChange={(value) => addTypeHandler(value.target.value)}
-                options={typeList}
-              ></CFormSelect>
+            <Select defaultValue={type} onChange={setType} options={typeList} />
+             
             </CCol>
           </div>
         </div>

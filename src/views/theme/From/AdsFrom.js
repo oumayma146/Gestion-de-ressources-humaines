@@ -59,8 +59,14 @@ export default function AdsFrom({
         <CFormInput type="date" value={date} onInput={(e) => addDateHandler(e)} />
       </CCol>
       <CCol xs={6}>
-        <CFormLabel>Poster </CFormLabel>
-        <CFormInput type="file" value={poster} onInput={(e) => addPosterHandler(e)} />
+      <label style={{ height: '40px' }}>
+      Poster 
+      
+        </label>
+        <br></br>
+   
+        <input type="file" value={poster} onInput={(e) => addPosterHandler(e)} ></input>
+      
       </CCol>
       <CCol md={6}>
         <CFormLabel htmlFor="inputState">Type</CFormLabel>

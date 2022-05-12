@@ -24,7 +24,6 @@ export const AddSalary= (startdate,chargepaternes,grosssalary,name) => {
     return async (dispatch,getState) =>{
         const token = getState().auth.token;
         let formData  = new FormData();
-       
         formData.append("Datedebut", startdate);
         formData.append("ChargePaterneles",chargepaternes);
         formData.append("SalaireBrut", grosssalary);

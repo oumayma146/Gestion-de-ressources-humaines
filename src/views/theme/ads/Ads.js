@@ -42,15 +42,34 @@ const Ads = () => {
   const [updateposter, setUpdatePoster] = useState('')
   const [updatetitle, setUpdateTitle] = useState('')
   const [updatetypeliste, setUpdateTypeliste] = useState([])
-
+  const [idOfElementToBeDeleted, setIdOfElementToBeDeleted] = useState()
+  const [idOfElementToBeUpdate, setIdOfElementToBeUpdate] = useState()
+  const onPressDeleteHandler = (id) => {
+    setDelete(!Delete)
+    setIdOfElementToBeDeleted(id)
+  }
   const AdsList = useSelector((state) => state.ads.adsList)
-
+  const onPressUpdateHandler = (id) => {
+    setUpdateVisible(!updatevisible)
+    setIdOfElementToBeUpdate(id)
+    let newAds=AdsList.filter((el)=>{return id==el.id;});
+    console.log("newads",newAds);
+    setUpdateDate(newAds[0].date)
+    setUpdateAbs(newAds[0].resume )
+    setUpdateTitle(newAds[0].titre)
+    setUpdatePoster()
+    const ins = newAds[0]?.typeAnnonce.map(elem=>{
+      return {value:elem.id,label:elem.typeAnnonce}
+    })
+    setUpdateTypeliste(ins)
+  }
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getAds())
   }, [])
   const deleteTrainingHandler = (id) => {
     dispatch(DeleteAds(id))
+    setDelete(false)
   }
   const addAdsHandler = () => {
     const listOfTypes = typeliste.map((elem) => {
@@ -66,10 +85,35 @@ const Ads = () => {
       setTypeliste([])
     })
   }
-
+  const updateAdsHandler=()=>{
+  
+      }
   return (
     <>
       <CRow>
+        <Modal
+          title={'Add new Ads'}
+          visible={updatevisible}
+          setVisible={setUpdateVisible}addHandler={() =>updateAdsHandler(idOfElementToBeUpdate)}
+        >
+          <AdsFrom
+            title={updatetitle}
+            setTitle={setUpdateTitle}
+            date={updatedate}
+            setDate={setUpdateDate}
+            abs={updateabs}
+            setAbs={setUpdateAbs}
+            poster={updateposter}
+            setPoster={setUpdatePoster}
+            typeliste={updatetypeliste}
+            setTypeliste={setUpdateTypeliste}
+          />
+        </Modal>
+        <DeleteModal
+          Delete={Delete}
+          setDelete={setDelete}
+          deleteHandler={() => deleteTrainingHandler(idOfElementToBeDeleted)}
+        />
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
@@ -123,51 +167,30 @@ const Ads = () => {
           <CTableBody>
             {AdsList.map((elem) => {
               return (
-                <>
-                  <CTableRow key={elem.id}>
-                    <CTableDataCell>{elem.titre}</CTableDataCell>
-                    <CTableDataCell>{elem.resume}</CTableDataCell>
-                    <CTableDataCell>{elem.date}</CTableDataCell>
-                    <CTableDataCell>{elem.affiche}</CTableDataCell>
-                    <CTableDataCell className="text-center">
-                      {elem.typeAnnonce.map((elemnt) => {
-                        return <div>{elemnt.typeAnnonce}</div>
-                      })}
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      <CButton color="link" onClick={() => setUpdateVisible(!updatevisible)}>
-                        <CIcon size="xl" icon={cilColorBorder} />
-                        <Modal
-                          title={'Add new Ads'}
-                          visible={updatevisible}
-                          setVisible={setUpdateVisible} /* addHandler={()=>addAdsHandler()} */
-                        >
-                          <AdsFrom
-                            title={updatetitle}
-                            setTitle={setUpdateTitle}
-                            date={updatedate}
-                            setDate={setUpdateDate}
-                            abs={updateabs}
-                            setAbs={setUpdateAbs}
-                            poster={updateposter}
-                            setPoster={setUpdatePoster}
-                            typeliste={updatetypeliste}
-                            setTypeliste={setUpdateTypeliste}
-                          />
-                        </Modal>
-                      </CButton>
+                <CTableRow key={elem.id}>
+                  <CTableDataCell>{elem.titre}</CTableDataCell>
+                  <CTableDataCell>{elem.resume}</CTableDataCell>
+                  <CTableDataCell>{elem.date}</CTableDataCell>
+                  <CTableDataCell>{elem.affiche}</CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {elem.typeAnnonce.map((elemnt) => {
+                      return <div>{elemnt.typeAnnonce}</div>
+                    })}
+                  </CTableDataCell>
+                  <CTableDataCell>
+                    <CButton color="link"onClick={() => onPressUpdateHandler(elem.id)}>
+                      <CIcon size="xl" icon={cilColorBorder} />
+                    </CButton>
 
-                      <CButton color="link" onClick={() => setDelete(!Delete)} role="button">
-                        <DeleteModal
-                          Delete={Delete}
-                          setDelete={setDelete}
-                          deleteHandler={() => deleteTrainingHandler(elem.id)}
-                        />
-                        <CIcon size="xl" icon={cilTrash} />
-                      </CButton>
-                    </CTableDataCell>
-                  </CTableRow>
-                </>
+                    <CButton
+                      color="link"
+                      onClick={() => onPressDeleteHandler(elem.id)}
+                      role="button"
+                    >
+                      <CIcon size="xl" icon={cilTrash} />
+                    </CButton>
+                  </CTableDataCell>
+                </CTableRow>
               )
             })}
           </CTableBody>

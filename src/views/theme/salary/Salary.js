@@ -32,8 +32,9 @@ const Salary = () => {
   useEffect(() => {
     dispatch(getSalary())
   }, [])
-  const deleteRoleHandler = (id) => {
+  const deleteSalaryHandler = (id) => {
     dispatch(DeleteSalary(id))
+    setDelete(false)
   }
   const SalaryList = useSelector((state) => state.salary.salaryList)
   const [Delete, setDelete] = useState(false)
@@ -45,13 +46,28 @@ const Salary = () => {
   const [grosssalary, setGrossSalary] = useState('')
   //update state
   const [updatevisible, setUpdateVisible] = useState(false)
-  const [updatename, setUpdateName] = useState('oumaima')
-  const [updatestartdate, setUpdateStartDate] = useState('2022-04-01')
-  const [updatechargepaternes, setUpdateChargePaternes] = useState('2000')
-  const [updategrosssalary, setUpdateGrossSalary] = useState('2500')
+  const [updatename, setUpdateName] = useState()
+  const [updatestartdate, setUpdateStartDate] = useState()
+  const [updatechargepaternes, setUpdateChargePaternes] = useState()
+  const [updategrosssalary, setUpdateGrossSalary] = useState()
+  const [idOfElementToBeUpdate, setIdOfElementToBeUpdate] = useState()
+  const [idOfElementToBeDeleted, setIdOfElementToBeDeleted] = useState()
 
-  const addSalaryHandler = () => {
-    dispatch(AddSalary(startdate, chargepaternes, grosssalary, name)).then(() => {
+  const onPressUpdateHandler = (id) => {
+    setUpdateVisible(!updatevisible)
+    setIdOfElementToBeUpdate(id)
+    let newsalary=SalaryList.filter((el)=>{return id==el.id;});
+    setUpdateName({ value: newsalary[0]?.user?.id, label: newsalary[0]?.user?.name})
+    setUpdateStartDate(newsalary[0].Datedebut )
+    setUpdateChargePaternes(newsalary[0].ChargePaterneles)
+    setUpdateGrossSalary(newsalary[0].SalaireBrut)
+  }
+  const onPressDeleteHandler = (id) => {
+    setDelete(!Delete)
+    setIdOfElementToBeDeleted(id)
+  }
+  const addSalaryHandler = () => {console.log(name);
+    dispatch(AddSalary(startdate, chargepaternes, grosssalary, name.value)).then(() => {
       dispatch(getSalary())
       setVisible(false)
       setName('')
@@ -60,9 +76,36 @@ const Salary = () => {
       setGrossSalary('')
     })
   }
+  
+
+  const updateSalaryHandler=()=>{
+//console.log(idOfElementToBeUpdate);
+  }
   return (
     <>
       <CRow>
+        <Modal
+          title={'UpDate Salary'}
+          visible={updatevisible}
+          setVisible={setUpdateVisible} addHandler={() =>updateSalaryHandler(idOfElementToBeUpdate)} 
+        >
+          <SalaryFrom
+     
+            setChargePaternes={setUpdateChargePaternes}
+            setGrossSalary={setUpdateGrossSalary}
+            setName={setUpdateName}
+            setStartDate={setUpdateStartDate}
+            name={updatename}
+            chargepaternes={updatechargepaternes}
+            grosssalary={updategrosssalary}
+            startdate={updatestartdate}
+          />
+        </Modal>
+        <DeleteModal
+          Delete={Delete}
+          setDelete={setDelete}
+          deleteHandler={() => deleteSalaryHandler(idOfElementToBeDeleted)}
+        />
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
@@ -112,45 +155,22 @@ const Salary = () => {
         <CTableBody>
           {SalaryList.map((elem) => {
             return (
-              <>
-                <CTableRow key={elem.id}>
-                  <CTableDataCell>
-                    {elem.user.name} {elem.user.prenom}
-                  </CTableDataCell>
-                  <CTableDataCell>{elem.Datedebut}</CTableDataCell>
-                  <CTableDataCell>{elem.ChargePaterneles}</CTableDataCell>
-                  <CTableDataCell>{elem.SalaireBrut}</CTableDataCell>
-                  <CTableDataCell>
-                    <CButton color="link" onClick={() => setUpdateVisible(!updatevisible)}>
-                      <CIcon size="xl" icon={cilColorBorder} />
-                      <Modal
-                        title={'UpDate Salary'}
-                        visible={updatevisible}
-                        setVisible={setUpdateVisible} /* addHandler={() =>addSalaryHandler()} */
-                      >
-                        <SalaryFrom
-                          setChargePaternes={setUpdateChargePaternes}
-                          setGrossSalary={setUpdateGrossSalary}
-                          setName={setUpdateName}
-                          setStartDate={setUpdateStartDate}
-                          name={updatename}
-                          chargepaternes={updatechargepaternes}
-                          grosssalary={updategrosssalary}
-                          startdate={updatestartdate}
-                        />
-                      </Modal>
-                    </CButton>
-                    <CButton color="link" onClick={() => setDelete(!Delete)} role="button">
-                      <CIcon size="xl" icon={cilTrash} />
-                      <DeleteModal
-                        Delete={Delete}
-                        setDelete={setDelete}
-                        deleteHandler={() => deleteRoleHandler(elem.id)}
-                      />
-                    </CButton>
-                  </CTableDataCell>
-                </CTableRow>
-              </>
+              <CTableRow key={elem.id}>
+                <CTableDataCell>
+                  {elem.user.name} {elem.user.prenom}
+                </CTableDataCell>
+                <CTableDataCell>{elem.Datedebut}</CTableDataCell>
+                <CTableDataCell>{elem.ChargePaterneles}</CTableDataCell>
+                <CTableDataCell>{elem.SalaireBrut}</CTableDataCell>
+                <CTableDataCell>
+                  <CButton color="link" onClick={() => onPressUpdateHandler(elem.id)} >
+                    <CIcon size="xl" icon={cilColorBorder} />
+                  </CButton>
+                  <CButton color="link" onClick={() => onPressDeleteHandler(elem.id)} role="button">
+                    <CIcon size="xl" icon={cilTrash} />
+                  </CButton>
+                </CTableDataCell>
+              </CTableRow>
             )
           })}
         </CTableBody>

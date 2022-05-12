@@ -30,7 +30,6 @@ import {
   cilTrash,
 } from '@coreui/icons'
 import Modal from '../Modal'
-import AdsFrom from '../From/AdsFrom'
 import LeaveFrom from '../From/LeaveFrom'
 import { AddLeave, DeleteLeave, getLeave } from 'src/store/action/leave'
 import { useDispatch, useSelector } from 'react-redux'
@@ -41,8 +40,9 @@ const Leave = () => {
   useEffect(() => {
     dispatch(getLeave())
   }, [])
-  const deleteRoleHandler = (id) => {
+  const deleteLeaveHandler = (id) => {
     dispatch(DeleteLeave(id))
+    setDelete(false)
   }
   const LeaveList = useSelector((state) => state.leave.leaveList)
   //add state
@@ -61,7 +61,28 @@ const Leave = () => {
   const [updatenbday, setUpdateNbDays] = useState('')
   const [updatetype, setUpdateType] = useState('')
   const [updatename, setUpdateName] = useState('')
-
+  const [idOfElementToBeUpdate, setIdOfElementToBeUpdate] = useState()
+  const [idOfElementToBeDeleted, setIdOfElementToBeDeleted] = useState()
+  const onPressDeleteHandler = (id) => {
+    setDelete(!Delete)
+    setIdOfElementToBeDeleted(id)
+  }
+  const updateLeaveHandler = () => {
+    //console.log(idOfElementToBeUpdate);
+  }
+  const onPressUpdateHandler = (id) => {
+    setUpdateVisible(!updatevisible)
+    setIdOfElementToBeUpdate(id)
+    let newsleave = LeaveList.filter((el) => {
+      return id == el.id
+    })
+    console.log(newsleave)
+    setUpdateName({ value: newsleave[0]?.user?.id, label: newsleave[0]?.user?.name })
+    setUpdateStartDate(newsleave[0].debut)
+    setUpdateEndDate(newsleave[0].fin)
+    setUpdateNbDays(newsleave[0].nbJour)
+    setUpdateType({label:newsleave[0]?.typeCongee,value:newsleave[0]?.typeCongee})
+  }
   const addleaveHandler = () => {
     dispatch(AddLeave(startdate, enddate, nbday, type, name)).then(() => {
       dispatch(getLeave())
@@ -76,6 +97,30 @@ const Leave = () => {
   return (
     <>
       <CRow>
+        <Modal
+          title={'Update Leave'}
+          visible={updatevisible}
+          setVisible={setUpdateVisible}
+          addHandler={() => updateLeaveHandler(idOfElementToBeUpdate)}
+        >
+          <LeaveFrom
+            setEndDate={setUpdateEndDate}
+            setName={setUpdateName}
+            setNbDays={setUpdateNbDays}
+            setStartDate={setUpdateStartDate}
+            setType={setUpdateType}
+            name={updatename}
+            startdate={updatestartdate}
+            enddate={updateenddate}
+            type={updatetype}
+            nbday={updatenbday}
+          />
+        </Modal>
+        <DeleteModal
+          Delete={Delete}
+          setDelete={setDelete}
+          deleteHandler={() => deleteLeaveHandler(idOfElementToBeDeleted)}
+        />
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
@@ -128,53 +173,28 @@ const Leave = () => {
         <CTableBody>
           {LeaveList.map((elem) => {
             return (
-              <>
-                <CTableRow key={elem.id}>
-                  <CTableDataCell>
-                    {elem.user.name}
-                    {elem.user.prenom}
-                  </CTableDataCell>
-                  <CTableDataCell>{elem.debut}</CTableDataCell>
-                  <CTableDataCell>{elem.fin}</CTableDataCell>
-                  <CTableDataCell className="text-center">{elem.nbJour}</CTableDataCell>
-                  <CTableDataCell>{elem.typeCongee}</CTableDataCell>
+              <CTableRow key={Math.random().toString()}>
+                <CTableDataCell>
+                  {elem.user.name}
+                  {elem.user.prenom}
+                </CTableDataCell>
+                <CTableDataCell>{elem.debut}</CTableDataCell>
+                <CTableDataCell>{elem.fin}</CTableDataCell>
+                <CTableDataCell className="text-center">{elem.nbJour}</CTableDataCell>
+                <CTableDataCell>{elem.typeCongee}</CTableDataCell>
 
-                  <CTableDataCell>
-                    <CButton color="link" onClick={() => setUpdateVisible(!updatevisible)}>
-                      <CIcon size="xl" icon={cilColorBorder} />
-                      <Modal
-                        title={'Update Leave'}
-                        visible={updatevisible}
-                        setVisible={setUpdateVisible} /* addHandler={() =>addleaveHandler()} */
-                      >
-                        <LeaveFrom
-                          setEndDate={setUpdateEndDate}
-                          setName={setUpdateName}
-                          setNbDays={setUpdateNbDays}
-                          setStartDate={setUpdateStartDate}
-                          setType={setUpdateType}
-                          name={updatename}
-                          startdate={updatestartdate}
-                          enddate={updateenddate}
-                          type={updatetype}
-                          nbday={updatenbday}
-                        />
-                      </Modal>
-                    </CButton>
-                    <CButton color="link" onClick={() => setDelete(!Delete)} role="button">
-                      <CIcon size="xl" icon={cilTrash} />
-                      <DeleteModal
-                        Delete={Delete}
-                        setDelete={setDelete}
-                        deleteHandler={() => deleteRoleHandler(elem.id)}
-                      />
-                    </CButton>
-                    <CButton color="link" href="/" role="button">
-                      <CIcon size="xl" icon={cilDescription} />
-                    </CButton>
-                  </CTableDataCell>
-                </CTableRow>
-              </>
+                <CTableDataCell>
+                  <CButton color="link" onClick={() => onPressUpdateHandler(elem.id)}>
+                    <CIcon size="xl" icon={cilColorBorder} />
+                  </CButton>
+                  <CButton color="link" onClick={() => onPressDeleteHandler(elem.id)} role="button">
+                    <CIcon size="xl" icon={cilTrash} />
+                  </CButton>
+                  <CButton color="link" href="/" role="button">
+                    <CIcon size="xl" icon={cilDescription} />
+                  </CButton>
+                </CTableDataCell>
+              </CTableRow>
             )
           })}
         </CTableBody>

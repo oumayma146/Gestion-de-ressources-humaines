@@ -26,10 +26,23 @@ const _nav = [
     component: CNavTitle,
   },
   {
-    component: CNavItem,
+    component: CNavGroup,
     name: 'Role Management',
     to: '/theme/Role',
     icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Permission Managment',
+        to: '/theme/permission',
+      
+      },
+      {
+        component: CNavItem,
+        name: 'Role Management',
+        to: '/theme/Role',
+      },]
+  
   },
   {
     component: CNavGroup,

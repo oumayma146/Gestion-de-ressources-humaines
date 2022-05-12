@@ -11,11 +11,15 @@ import {
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRole } from 'src/store/action/role'
+import Select from 'react-select'
 
 export default function EmployeeFrom({
   setRole,
   role,
+  password,
+  setPassword,
   setGender,
+  state,
   setState,
   name,
   setName,
@@ -34,6 +38,9 @@ export default function EmployeeFrom({
   Tnumber,
   setTnumber,
 }) {
+  const addPasswordHandler = (e) => {
+    setPassword(e.target.value)
+  }
   const addTnumberHandler = (e) => {
     setTnumber(e.target.value)
   }
@@ -78,7 +85,7 @@ export default function EmployeeFrom({
     return { value: elem.id, label: elem.name }
   })
   const stateList = [
-    { label: '...', value: '...' },
+  
     { label: 'single', value: 'single' },
     { label: 'married', value: 'married' },
     { label: 'divorced', value: 'divorced' },
@@ -94,13 +101,22 @@ export default function EmployeeFrom({
         <CFormLabel htmlFor="inputLastname">Lastname</CFormLabel>
         <CFormInput type="input" value={Lastname} onInput={(e) => addLastNameHandler(e)} />
       </CCol>
-      <CCol xs={12}>
+      <CCol xs={6}>
         <CFormLabel htmlFor="inputEmail">Email</CFormLabel>
         <CFormInput
           type="email"
           value={email}
           onInput={(e) => addEmailHandler(e)}
           placeholder="email here"
+        />
+      </CCol>
+      <CCol xs={6}>
+        <CFormLabel htmlFor="inputEmail">Password</CFormLabel>
+        <CFormInput
+          type="password"
+          value={password}
+          onInput={(e) => addPasswordHandler(e)}
+          placeholder="password here"
         />
       </CCol>
       <CCol xs={12}>
@@ -114,10 +130,7 @@ export default function EmployeeFrom({
       </CCol>
       <CCol md={3}>
         <CFormLabel htmlFor="inputState">State</CFormLabel>
-        <CFormSelect
-          onChange={(value) => addStateHandler(value.target.value)}
-          options={stateList}
-        />
+        <Select defaultValue={state} onChange={setState} options={stateList} />
       </CCol>
       <CCol md={3}>
         <CFormLabel htmlFor="inputPost">Post</CFormLabel>
@@ -145,7 +158,7 @@ export default function EmployeeFrom({
       </CCol>
       <CCol md={4}>
         <CFormLabel htmlFor="inputGender">Role</CFormLabel>
-        <CFormSelect onChange={(value) => addRoleHandler(value.target.value)} options={roleList} />
+        <Select defaultValue={role} onChange={setRole} options={roleList} />
       </CCol>
       <CCol xs={4}>
         <CFormLabel>CIN Number</CFormLabel>
@@ -153,11 +166,11 @@ export default function EmployeeFrom({
       </CCol>
       <CCol xs={4}>
         <CFormLabel>Bank Account Number</CFormLabel>
-        <CFormInput id="inputCIN" value={BAnum} onInput={(e) => addBAnumHandler(e)} />
+        <CFormInput  value={BAnum} onInput={(e) => addBAnumHandler(e)} />
       </CCol>
       <CCol xs={4}>
         <CFormLabel>Telephone Number</CFormLabel>
-        <CFormInput id="inputCIN" value={Tnumber} onInput={(e) => addTnumberHandler(e)} />
+        <CFormInput  value={Tnumber} onInput={(e) => addTnumberHandler(e)} />
       </CCol>
     </CForm>
   )

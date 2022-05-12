@@ -23,9 +23,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilColorBorder, cilMagnifyingGlass, cilPlus, cilTrash } from '@coreui/icons'
 import Modal from '../Modal'
-import AdsFrom from '../From/AdsFrom'
 import TrainingFrom from '../From/TrainingFrom'
-import TabsTraining from './TabsTraining'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   AddTraining,
@@ -42,6 +40,7 @@ const Training = () => {
   }, [])
   const deleteTrainingHandler = (id) => {
     dispatch(DeleteTraining(id))
+    setDelete(false)
   }
   const TrainingList = useSelector((state) => state.training.trainingList)
   //add state
@@ -59,19 +58,43 @@ const Training = () => {
 
   const [updatevisible, setUpdateVisible] = useState(false)
   //const [updateinstructor, setUpdateInstructor] = useState(false)
-  const [updatedate, setUpdateDate] = useState('2022-04-01')
-  const [updateplace, setUpdatePlace] = useState('café ')
-  const [updateprice, setUpdatePrice] = useState('50')
-  const [updatetitle, setUpdateTitle] = useState('time managment')
-  const [updatenbHour, setUpdateNbhour] = useState('3')
-  const [updatemode, setUpdateMode] = useState('espace')
+  const [updatedate, setUpdateDate] = useState('')
+  const [updateplace, setUpdatePlace] = useState(' ')
+  const [updateprice, setUpdatePrice] = useState('')
+  const [updatetitle, setUpdateTitle] = useState('')
+  const [updatenbHour, setUpdateNbhour] = useState('')
+  const [updatemode, setUpdateMode] = useState('')
   const [updatelist_instructor, setUpdateListInstructor] = useState([])
+  const [idOfElementToBeDeleted, setIdOfElementToBeDeleted] = useState()
+  const [idOfElementToBeUpdate, setIdOfElementToBeUpdate] = useState()
+  const onPressDeleteHandler = (id) => {
+    setDelete(!Delete)
+    setIdOfElementToBeDeleted(id)
+  }
+  const onPressUpdateHandler = (id) => {
+    setUpdateVisible(!updatevisible)
+    setIdOfElementToBeUpdate(id)
+    let newTraining = TrainingList.filter((el) => {
+      return id == el.id
+    })
+    setUpdateDate(newTraining[0].date)
+    setUpdatePlace(newTraining[0].local)
+    setUpdatePrice(newTraining[0].prix)
+    setUpdateTitle(newTraining[0].titre)
+    setUpdateNbhour(newTraining[0].nbHeure)
+    setUpdateMode({label:newTraining[0]?.type_payement,value:newTraining[0]?.type_payement})
+    const ins = newTraining[0]?.formateur.map(elem=>{
+      return {value:elem.id,label:elem.nom}
+    })
+    setUpdateListInstructor( ins)
+  }
 
   const openModalInstructor = (id) => {
     dispatch(getInstructorInfo(id))
     setInstructor(!instructor)
   }
   const addTrainigHandler = () => {
+  
     const listOfInstructors = list_instructor.map((elem) => {
       return elem.value
     })
@@ -82,13 +105,45 @@ const Training = () => {
       setPlace('')
       setPrice('')
       setTitle('')
+      setNbhour('')
       setListInstructor([])
       setMode('')
     })
   }
+  const updateTraningHandler = () => {
+    //console.log(idOfElementToBeUpdate);
+  }
   return (
     <>
       <CRow>
+        <Modal
+          title={'UpdateTraining'}
+          visible={updatevisible}
+          setVisible={setUpdateVisible}
+          addHandler={() => updateTraningHandler(idOfElementToBeUpdate)}
+        >
+          <TrainingFrom
+            date={updatedate}
+            setDate={setUpdateDate}
+            list_instructor={updatelist_instructor}
+            setListInstructor={setUpdateListInstructor}
+            nbHour={updatenbHour}
+            setNbhour={setUpdateNbhour}
+            price={updateprice}
+            setPrice={setUpdatePrice}
+            place={updateplace}
+            setPlace={setUpdatePlace}
+            title={updatetitle}
+            setTitle={setUpdateTitle}
+            mode={updatemode}
+            setMode={setUpdateMode}
+          />
+        </Modal>
+        <DeleteModal
+          Delete={Delete}
+          setDelete={setDelete}
+          deleteHandler={() => deleteTrainingHandler(idOfElementToBeDeleted)}
+        />
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
@@ -148,65 +203,40 @@ const Training = () => {
           <CTableBody>
             {TrainingList.map((elem) => {
               return (
-                <>
-                  <CTableRow key={elem.id}>
-                    <CTableDataCell className="text-center">{elem.date}</CTableDataCell>
-                    <CTableDataCell>{elem.nbHeure}</CTableDataCell>
-                    <CTableDataCell className="text-center">{elem.titre}</CTableDataCell>
-                    <CTableDataCell>{elem.local}</CTableDataCell>
-                    <CTableDataCell className="text-center">{elem.prix}</CTableDataCell>
-                    <CTableDataCell>{elem.type_payement}</CTableDataCell>
-                    <CTableDataCell>
-                      <CButton
-                        color="link"
-                        role="button"
-                        onClick={() => openModalInstructor(elem.id)}
-                      >
-                        See Instructor Info
-                        <ModalInstructor
-                          instructor={instructor}
-                          setInstructor={setInstructor}
-                          id={elem.id}
-                        ></ModalInstructor>
-                      </CButton>
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      <CButton color="link" onClick={() => setUpdateVisible(!updatevisible)}>
-                        <CIcon size="xl" icon={cilColorBorder} />
-                        <Modal
-                          title={'UpdateTraining'}
-                          visible={updatevisible}
-                          setVisible={setUpdateVisible} /* addHandler={() =>addTrainigHandler()} */
-                        >
-                          <TrainingFrom
-                            date={updatedate}
-                            setDate={setUpdateDate}
-                            list_instructor={updatelist_instructor}
-                            setListInstructor={setUpdateListInstructor}
-                            nbHour={updatenbHour}
-                            setNbhour={setUpdateNbhour}
-                            price={updateprice}
-                            setPrice={setUpdatePrice}
-                            place={updateplace}
-                            setPlace={setUpdatePlace}
-                            title={updatetitle}
-                            setTitle={setUpdateTitle}
-                            mode={updatemode}
-                            setMode={setUpdateMode}
-                          />
-                        </Modal>
-                      </CButton>
-                      <CButton color="link" onClick={() => setDelete(!Delete)} role="button">
-                        <CIcon size="xl" icon={cilTrash} />
-                        <DeleteModal
-                          Delete={Delete}
-                          setDelete={setDelete}
-                          deleteHandler={() => deleteTrainingHandler(elem.id)}
-                        />
-                      </CButton>
-                    </CTableDataCell>
-                  </CTableRow>
-                </>
+                <CTableRow key={elem.id}>
+                  <CTableDataCell className="text-center">{elem.date}</CTableDataCell>
+                  <CTableDataCell>{elem.nbHeure}</CTableDataCell>
+                  <CTableDataCell className="text-center">{elem.titre}</CTableDataCell>
+                  <CTableDataCell>{elem.local}</CTableDataCell>
+                  <CTableDataCell className="text-center">{elem.prix}</CTableDataCell>
+                  <CTableDataCell>{elem.type_payement}</CTableDataCell>
+                  <CTableDataCell>
+                    <CButton
+                      color="link"
+                      role="button"
+                      onClick={() => openModalInstructor(elem.id)}
+                    >
+                      See Instructor Info
+                      <ModalInstructor
+                        instructor={instructor}
+                        setInstructor={setInstructor}
+                        id={elem.id}
+                      ></ModalInstructor>
+                    </CButton>
+                  </CTableDataCell>
+                  <CTableDataCell>
+                    <CButton color="link" onClick={() => onPressUpdateHandler(elem.id)}>
+                      <CIcon size="xl" icon={cilColorBorder} />
+                    </CButton>
+                    <CButton
+                      color="link"
+                      onClick={() => onPressDeleteHandler(elem.id)}
+                      role="button"
+                    >
+                      <CIcon size="xl" icon={cilTrash} />
+                    </CButton>
+                  </CTableDataCell>
+                </CTableRow>
               )
             })}
           </CTableBody>

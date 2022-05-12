@@ -34,8 +34,7 @@ export default function RoleFrom({setTitle,setPermission,permission,title}) {
     <CFormLabel htmlFor="inputAddress">Permission</CFormLabel>
     {Permission.map((elem)=>{
       return(
-      <CCol xs={2}>
-      
+      <CCol xs={2}> 
       <CFormCheck  onChange={checkValue} value={elem.id} id={elem.id} label={elem.name}/>
     </CCol>
       )

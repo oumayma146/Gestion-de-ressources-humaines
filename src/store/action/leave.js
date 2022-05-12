@@ -29,7 +29,8 @@ export const AddLeave= (startdate,enddate,nbday,type,name) => {
         formData.append("fin",enddate);
         formData.append("nbJour", nbday);
         formData.append("typeCongee", type);
-        formData.append("user",name)
+        formData.append("user",name.value)
+
         const response = await axios({
             method: "POST",
             url: `http://127.0.0.1:8000/api/congee/create`,
@@ -37,7 +38,7 @@ export const AddLeave= (startdate,enddate,nbday,type,name) => {
              headers: {"Authorization" :`Bearer ${token}`} ,
              "Content-Type": "multipart/form-data" 
             })
-            console.log(response.data);
+           // console.log(response);
     };
 
 }

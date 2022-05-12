@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react'
 import { MultiSelect } from 'react-multi-select-component'
 import { useDispatch, useSelector } from 'react-redux'
 import { getName } from 'src/store/action/instructor'
+import Select from 'react-select'
 
 export default function TrainingFrom({
   date,
@@ -53,16 +54,15 @@ export default function TrainingFrom({
   const addTitleHandler = (e) => {
     setTitle(e.target.value)
   }
-  const addModeHandler = (e) => {
+  /* const addModeHandler = (e) => {
     setMode(e)
     console.log(e)
   }
-
+ */
   const ModeList = [
-    /* { label: '...', value: '...' }, */
     { label: 'check', value: 'check' },
     { label: 'Bank cards', value: 'Bank cards' },
-    { label: 'species', value: 'species' },
+    { label: 'cash', value: 'cash' },
   ]
 
   return (
@@ -89,10 +89,7 @@ export default function TrainingFrom({
       </CCol>
       <CCol md={6}>
         <CFormLabel htmlFor="inputState">Mode of payment</CFormLabel>
-        <CFormSelect
-          onChange={(value) => addModeHandler(value?.target?.value)}
-          options={ModeList}
-        ></CFormSelect>
+        <Select defaultValue={mode} onChange={setMode} options={ModeList} />
       </CCol>
       <CCol md={6}>
         <CFormLabel htmlFor="inputState">Instructor</CFormLabel>

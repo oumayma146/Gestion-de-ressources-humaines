@@ -39,8 +39,9 @@ export const AddTraining= ( date,nbHour,place,price,title,mode,list_instructor )
         formData.append("titre", title);
         formData.append("local",place);
         formData.append("prix",price);
-        formData.append("type_payement",mode);
+        formData.append("type_payement",mode.value);
         formData.append("formateurs",JSON.stringify(list_instructor));
+        console.log(mode);
         const response = await axios({
             method: "POST",
             url: `http://127.0.0.1:8000/api/formation/store`,

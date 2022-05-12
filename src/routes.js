@@ -2,7 +2,7 @@
 import React from 'react'
 import Role from './views/theme/role/Role'
 
-//const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const role = React.lazy(() => import('./views/theme/role/Role'))
 const Employee = React.lazy(() => import('./views/theme/employee/Employee'))
 const ads = React.lazy(() => import('./views/theme/ads/Ads'))
@@ -11,10 +11,10 @@ const salary = React.lazy(() => import('./views/theme/salary/Salary'))
 const training = React.lazy(() => import('./views/theme/training/Training'))
 const instructor = React.lazy(() => import('./views/theme/instructor/Instructor'))
 const configuration = React.lazy(() => import('./views/theme/configuration/Configuration'))
-
+const permission = React.lazy(() => import('./views/theme/permission/Permission'))
 const routes = [
  // { path: '/', exact: true, name: 'Home' },
- //{ path: '/dashboard', name: 'Dashboard', element: Dashboard },
+{ path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/theme/Role', name: 'Role', element: role },
   { path: '/theme/employee', name: 'Employee', element: Employee },
   { path: '/theme/ads', name: 'Employee', element: ads },
@@ -23,7 +23,7 @@ const routes = [
   { path: '/theme/training', name: 'trainig', element: training },
   { path: '/theme/instructor', name: 'instructor', element: instructor },
  { path: '/theme/configuration', name: 'configuration', element: configuration },
-
+ { path: '/theme/permission', name: 'permission', element: permission },
 ]
 
 export default routes
