@@ -4,7 +4,7 @@ export const EMPLOYEE ='EMPLOYEE';
 export const DELETEEMPLOYEE ='DELETEEMPLOYEE';
 export const ADDEMPLOYEE ='ADDEMPLOYEE';
 export const EMPLOYEEINFO ='EMPLOYEEINFO';
-
+export const SEARCHEMPLOYEE='SEARCHEMPLOYEE'
 
 export const getEmployee = () => {
     return async (dispatch,getState) =>{
@@ -50,5 +50,13 @@ export const AddEmployee= () => {
              "Content-Type": "multipart/form-data" 
             })
             console.log(response.data);
+    };
+}
+export const SearchEmployee=(name) => {
+    return async (dispatch,getState) =>{
+        const token = getState().auth.token;
+    
+     dispatch({type:SEARCHEMPLOYEE,payload:{name,}});
+    
     };
 }

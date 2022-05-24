@@ -31,7 +31,7 @@ import {
 } from '@coreui/icons'
 import Modal from '../Modal'
 import LeaveFrom from '../From/LeaveFrom'
-import { AddLeave, DeleteLeave, getLeave } from 'src/store/action/leave'
+import { AddLeave, DeleteLeave, getLeave, SearchLeave, UpdateLeave } from 'src/store/action/leave'
 import { useDispatch, useSelector } from 'react-redux'
 import DeleteModal from '../DeleteModal'
 
@@ -44,7 +44,7 @@ const Leave = () => {
     dispatch(DeleteLeave(id))
     setDelete(false)
   }
-  const LeaveList = useSelector((state) => state.leave.leaveList)
+  const LeaveList = useSelector((state) => state.leave.NewLeaveList)
   //add state
   const [visible, setVisible] = useState(false)
   const [Delete, setDelete] = useState(false)
@@ -63,12 +63,19 @@ const Leave = () => {
   const [updatename, setUpdateName] = useState('')
   const [idOfElementToBeUpdate, setIdOfElementToBeUpdate] = useState()
   const [idOfElementToBeDeleted, setIdOfElementToBeDeleted] = useState()
+
+ 
   const onPressDeleteHandler = (id) => {
     setDelete(!Delete)
     setIdOfElementToBeDeleted(id)
   }
-  const updateLeaveHandler = () => {
-    //console.log(idOfElementToBeUpdate);
+  const updateLeaveHandler = (id) => {
+    dispatch(
+      UpdateLeave(updatestartdate, updateenddate, updatenbday, updatetype, updatename, id),
+    ).then(() => {
+      dispatch(getLeave())
+      setUpdateVisible(false)
+    })
   }
   const onPressUpdateHandler = (id) => {
     setUpdateVisible(!updatevisible)
@@ -76,12 +83,12 @@ const Leave = () => {
     let newsleave = LeaveList.filter((el) => {
       return id == el.id
     })
-    console.log(newsleave)
+ 
     setUpdateName({ value: newsleave[0]?.user?.id, label: newsleave[0]?.user?.name })
     setUpdateStartDate(newsleave[0].debut)
     setUpdateEndDate(newsleave[0].fin)
     setUpdateNbDays(newsleave[0].nbJour)
-    setUpdateType({label:newsleave[0]?.typeCongee,value:newsleave[0]?.typeCongee})
+    setUpdateType({ label: newsleave[0]?.typeCongee, value: newsleave[0]?.typeCongee })
   }
   const addleaveHandler = () => {
     dispatch(AddLeave(startdate, enddate, nbday, type, name)).then(() => {
@@ -93,6 +100,16 @@ const Leave = () => {
       setNbDays('')
       setType('')
     })
+  }
+const SearchLeaveHandler = (name) => {
+
+ dispatch(SearchLeave(name))
+}
+  const GeneratePDFLeaveHandler = (id) => {
+    //let base_url = process.env.REACT_APP_PORT
+    let base_url ="http://127.0.0.1:8000"
+    let url = base_url + `/congee/generate-pdf/${id}`
+      window.open(url);
   }
   return (
     <>
@@ -128,9 +145,14 @@ const Leave = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="text" placeholder="What are you looking for?" />
-                <CButton color="primary" size="sm">
-                  Search
+                <CFormInput
+                  type="search"
+                  placeholder="Search for..."
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <CButton color="primary" size="sm" onClick={(e) =>SearchLeaveHandler(name)}>
+                  Search  
                 </CButton>
                 <div style={{ width: '400px' }}> </div>
 
@@ -175,7 +197,7 @@ const Leave = () => {
             return (
               <CTableRow key={Math.random().toString()}>
                 <CTableDataCell>
-                  {elem.user.name}
+                  {elem.user.name} 
                   {elem.user.prenom}
                 </CTableDataCell>
                 <CTableDataCell>{elem.debut}</CTableDataCell>
@@ -190,7 +212,7 @@ const Leave = () => {
                   <CButton color="link" onClick={() => onPressDeleteHandler(elem.id)} role="button">
                     <CIcon size="xl" icon={cilTrash} />
                   </CButton>
-                  <CButton color="link" href="/" role="button">
+                  <CButton color="link" onClick={() => GeneratePDFLeaveHandler(elem.id)}>
                     <CIcon size="xl" icon={cilDescription} />
                   </CButton>
                 </CTableDataCell>

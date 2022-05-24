@@ -24,15 +24,8 @@ export const getSkill = () => {
         dispatch({type:SKILL,payload:{skillList:response.data.competance ,}});
     };
 }
-/* export const DeleteAds = (id) => {
-    return async (dispatch,getState) =>{
-        const token = getState().auth.token;
-        const response = await axios.delete(`http://127.0.0.1:8000/api/ads/${id}`,{ headers: {"Authorization" :`Bearer ${token}`, }} 
-        )
-        console.log("hhh",response);
-     dispatch({type:DELETEADS,payload:{id,}});
-    };
-} */
+
+
 export const AddSkill= ( skill ) => {
     return async (dispatch,getState) =>{
         const token = getState().auth.token;

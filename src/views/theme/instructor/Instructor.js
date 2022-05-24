@@ -31,7 +31,7 @@ import {
 } from '@coreui/icons'
 import Modal from '../Modal'
 import { useDispatch, useSelector } from 'react-redux'
-import { AddInstructor, DeleteInstructor, getInstructor } from 'src/store/action/instructor'
+import { AddInstructor, DeleteInstructor, getInstructor, SearchInstructor, UpdateInstructor } from 'src/store/action/instructor'
 import DeleteModal from '../DeleteModal'
 import InstructorFrom from '../From/InstructorFrom'
 
@@ -64,7 +64,7 @@ const Instructor = () => {
     setUpdatePhonneNumber(newInstructor[0].numero)
   }
 
-  const Instructor = useSelector((state) => state.instructor.instructorList)
+  const Instructor = useSelector((state) => state.instructor.NewInstructorList)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getInstructor())
@@ -81,16 +81,23 @@ const Instructor = () => {
       setSpeciality('')
     })
   }
-  const updateInstructorHandler=()=>{
-    //console.log(idOfElementToBeUpdate);
-      }
+  const updateInstructorHandler=(id)=>{
+    dispatch(UpdateInstructor(updatespeciality, updatephonenumber, updatename,id)).then(() => {
+      dispatch(getInstructor())
+      setUpdateVisible(false) 
+    })
+  }
+  const SearchInstructorHandler = (name) => {
+    console.log("inisde comp",name);
+   dispatch(SearchInstructor(name))
+  }
   return (
     <>
       <CRow>
         <Modal
           title={'UpdateInstructor'}
           visible={updatevisible}
-          setVisible={setUpdateVisible} addHandler={() =>updateSalaryHandler(idOfElementToBeUpdate)} 
+          setVisible={setUpdateVisible} addHandler={() =>updateInstructorHandler(idOfElementToBeUpdate)} 
         >
           <InstructorFrom
             name={updatename}
@@ -113,8 +120,11 @@ const Instructor = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="text" placeholder="What are you looking for?" />
-                <CButton color="primary" size="sm">
+                <CFormInput type="search"
+                  placeholder="Search for..."
+                  value={name}
+                  onChange={(e) => setName(e.target.value)} />
+                <CButton color="primary" size="sm" onClick={(e) =>SearchInstructorHandler(name)}>
                   Search
                 </CButton>
                 <div style={{ width: '400px' }}> </div>

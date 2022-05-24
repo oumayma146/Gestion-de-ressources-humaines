@@ -22,12 +22,12 @@ import { cilColorBorder, cilMagnifyingGlass, cilPlus, cilShortText, cilTrash } f
 import Modal from '../Modal'
 import Tabs from './Tabs'
 import { useDispatch, useSelector } from 'react-redux'
-import { DeleteEmployee, getEmployee, getEmployeeInfo } from 'src/store/action/Employee'
+import { DeleteEmployee, getEmployee, getEmployeeInfo, SearchEmployee } from 'src/store/action/Employee'
 import DeleteModal from '../DeleteModal'
 import ModalEmployee from '../ModalEmployee'
 const Employee = () => {
   const [updatevisible, setUpdateVisible] = useState(false)
-  const EmployeeList = useSelector((state) => state.emp.employeeList)
+  const EmployeeList = useSelector((state) => state.emp.NewemployeeList)
   const [skill, setSkill] = useState([])
   const [Gender, setGender] = useState()
   const [Education, setEducation] = useState([])
@@ -88,7 +88,7 @@ const Employee = () => {
     let newEmploye = EmployeeList.filter((el) => {
       return id == el.id
     })
-    console.log('new', newEmploye[0].password)
+    console.log('new', newEmploye[0].statu)
     setUpdateSkill()
     setUpdateGender(newEmploye[0].genre)
     setUpdateEducation([])
@@ -124,6 +124,10 @@ const Employee = () => {
   }
   const updateEmployeeHandler = () => {
     //console.log(idOfElementToBeUpdate);
+  }
+  const SearchEmployeeHandler = (name) => {
+    
+       dispatch(SearchEmployee(name))
   }
   return (
     <>
@@ -237,8 +241,11 @@ const Employee = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="text" placeholder="What are you looking for?" />
-                <CButton color="primary" size="sm">
+                <CFormInput type="search"
+                  placeholder="Search for..."
+                  value={name}
+                  onChange={(e) => setName(e.target.value)} />
+                <CButton color="primary" size="sm" onClick={(e) =>SearchEmployeeHandler(name)}>
                   Search
                 </CButton>
                 <div style={{ width: '400px' }}> </div>

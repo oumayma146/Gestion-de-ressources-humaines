@@ -1,15 +1,27 @@
 /* eslint-disable */
-import { DELETETRAINING, INSTRUCTORINFO, TRAINING } from "../action/training";
+import { DELETETRAINING, INSTRUCTORINFO, SEARCHTRAINING, TRAINING } from "../action/training";
 const initialState = {
     trainingList:[],
     InstructorInfo:[],
+    NewtrainingList:[],
 }
 const trainingReducer = (state = initialState, action) =>{
     switch (action.type) {
+        case SEARCHTRAINING:
+   
+            let NewtrainingList =[...state.trainingList];
+            const resultTrainig=NewtrainingList.filter(elem=>{
+                return elem.titre.includes(action.payload.name)
+            })
+            return {
+                ...state,
+                NewtrainingList: resultTrainig,
+            };
         case TRAINING:
             return {
                 ...state,
                 trainingList: action.payload.trainingList,
+                NewtrainingList: action.payload.trainingList,
 
             };
          case DELETETRAINING:
@@ -22,6 +34,7 @@ const trainingReducer = (state = initialState, action) =>{
                 return {
                     ...state,
                     trainingList: result,
+                    NewtrainingList: result,
                 };
         case INSTRUCTORINFO:
             return {

@@ -33,7 +33,7 @@ export default function AdsFrom({
   }
 
   const addPosterHandler = (e) => {
-    setPoster(e.target.value)
+    setPoster(e.target.files[0])
   }
   const addTitleHandler = (e) => {
     setTitle(e.target.value)
@@ -52,7 +52,7 @@ export default function AdsFrom({
       </CCol>
       <CCol md={6}>
         <CFormLabel>Abstract</CFormLabel>
-        <CFormInput type="ltext" value={abs} onInput={(e) => addAbsHandler(e)} />
+        <CFormInput type="text" value={abs} onInput={(e) => addAbsHandler(e)} />
       </CCol>
       <CCol xs={6}>
         <CFormLabel>Date</CFormLabel>
@@ -65,7 +65,7 @@ export default function AdsFrom({
         </label>
         <br></br>
    
-        <input type="file" value={poster} onInput={(e) => addPosterHandler(e)} ></input>
+        <input type="file"  onChange={addPosterHandler} ></input>
       
       </CCol>
       <CCol md={6}>

@@ -20,7 +20,7 @@ import adsReducer from './store/reducer/ads'
 import employeeReducer from './store/reducer/Employee'
 import instructorReducer from './store/reducer/instructor'
 import ConfigurationReducer from './store/reducer/configuration'
-
+import DashboardReducer from './store/reducer/dashboard'
 const rootReducer = combineReducers({
   auth:authReducer,
   permissions:permissionReducer,
@@ -33,6 +33,7 @@ const rootReducer = combineReducers({
   emp:employeeReducer,
   instructor:instructorReducer,
   conf:ConfigurationReducer,
+  dashboard:DashboardReducer,
  })
  const store =createStore(rootReducer,applyMiddleware(ReduxThunk));
  

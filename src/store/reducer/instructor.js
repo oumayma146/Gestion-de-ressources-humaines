@@ -1,15 +1,28 @@
 /* eslint-disable */
-import { DELETEINSTRUCTOR, INSTRUCTOR, NAME } from "../action/instructor";
+import { DELETEINSTRUCTOR, INSTRUCTOR, NAME, SEARCHINSTRUCTOR } from "../action/instructor";
 
 const initialState = {
     instructorList:[],
     nameList:[],
+    NewInstructorList:[],
 }
 const instructorReducer = (state = initialState, action) =>{
     switch (action.type) {
+        case SEARCHINSTRUCTOR:
+    
+            let NewInstructorList =[...state.instructorList];
+            const resultinstructor=NewInstructorList.filter(elem=>{
+                return elem.nom.includes(action.payload.name)
+            })
+            return {
+                ...state,
+                NewInstructorList: resultinstructor,
+            };
         case INSTRUCTOR:
             return {
+                ...state,
                 instructorList: action.payload.instructorList,
+                NewInstructorList: action.payload.instructorList,
 
             };
         case NAME:

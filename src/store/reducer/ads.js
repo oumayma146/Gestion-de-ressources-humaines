@@ -1,15 +1,27 @@
 /* eslint-disable */
-import { ADS, DELETEADS } from "../action/ads";
+import { ADS, DELETEADS, SEARCHADS } from "../action/ads";
 
 const initialState = {
     adsList:[],
+    NewadsList:[],
  
 }
 const adsReducer = (state = initialState, action) =>{
     switch (action.type) {
+        case SEARCHADS:
+         
+            let NewadsList =[...state.adsList];
+            const resultAds=NewadsList.filter(elem=>{
+                return elem.titre.includes(action.payload.name)
+            })
+            return {
+                ...state,
+                NewadsList: resultAds,
+            };
         case ADS:
             return {
                 adsList: action.payload.adsList,
+                NewadsList: action.payload.adsList,
 
             };
          case DELETEADS:
@@ -21,7 +33,7 @@ const adsReducer = (state = initialState, action) =>{
        
                 return {
                     ...state,
-                    adsList: result,
+                    NewadsList: result,
                 };
         
         default:

@@ -16,10 +16,10 @@ export default function PermissionFrom({name,setName,guard_name, setGuard_name})
       <CFormLabel htmlFor="inputName">Permission Name</CFormLabel>
       <CFormInput type="name" value={name} onInput={e => addNameHandler(e)}/>
     </CCol>
-    <CCol md={12}>
+  {/*   <CCol md={12}>
       <CFormLabel htmlFor="inputName">Guard_Name</CFormLabel>
       <CFormInput type="name" value={guard_name} onInput={e => addGuardHandler(e)}/>
-    </CCol>
+    </CCol> */}
   </CForm>
   )
 }

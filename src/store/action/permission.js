@@ -2,6 +2,7 @@
 import axios from "axios";
 export const PERMISSION ='PERMISSION';
 export const DELETEPERMISSION ='DELETEPERMISSION';
+export const SEARCHPERMISSION ='SEARCHPERMISSION';
 
 
 export const getPermission = () => {
@@ -37,4 +38,12 @@ export const AddPermission= (name,guard_name) => {
             console.log(response.data);
     };
 
+}
+export const SearchPermission=(name) => {
+    return async (dispatch,getState) =>{
+        const token = getState().auth.token;
+      
+     dispatch({type:SEARCHPERMISSION,payload:{name,}});
+    
+    };
 }

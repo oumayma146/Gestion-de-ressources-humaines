@@ -30,6 +30,8 @@ import {
   DeleteTraining,
   getInstructorInfo,
   getTraining,
+  SearchTraining,
+  updateTraining,
 } from 'src/store/action/training'
 import DeleteModal from '../DeleteModal'
 import ModalInstructor from '../ModalInstructor'
@@ -42,7 +44,7 @@ const Training = () => {
     dispatch(DeleteTraining(id))
     setDelete(false)
   }
-  const TrainingList = useSelector((state) => state.training.trainingList)
+  const TrainingList = useSelector((state) => state.training.NewtrainingList)
   //add state
   const [visible, setVisible] = useState(false)
   const [Delete, setDelete] = useState(false)
@@ -110,8 +112,18 @@ const Training = () => {
       setMode('')
     })
   }
-  const updateTraningHandler = () => {
-    //console.log(idOfElementToBeUpdate);
+  const updateTraningHandler = (id) => {
+    const UplistOfInstructors = updatelist_instructor.map((elem) => {
+      return elem.value
+    })
+    dispatch(updateTraining(updatedate, updatenbHour, updateplace, updateprice, updatetitle, updatemode, UplistOfInstructors,id)).then(() => {
+      dispatch(getTraining())
+      setUpdateVisible(false)
+    })
+  }
+  const SearchTrainigHandler = (title) => {
+
+   dispatch(SearchTraining(title))
   }
   return (
     <>
@@ -151,8 +163,11 @@ const Training = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="text" placeholder="What are you looking for?" />
-                <CButton color="primary" size="sm">
+                <CFormInput type="search"
+                  placeholder="Search for..."
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)} />
+                <CButton color="primary" size="sm" onClick={(e) =>SearchTrainigHandler(title)}>
                   Search
                 </CButton>
                 <div style={{ width: '400px' }}> </div>

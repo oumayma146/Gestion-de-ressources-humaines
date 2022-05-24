@@ -24,7 +24,7 @@ import { cilColorBorder, cilMagnifyingGlass, cilTrash } from '@coreui/icons'
 import Modal from '../Modal'
 import SalaryFrom from '../From/SalaryFrom'
 import { useDispatch, useSelector } from 'react-redux'
-import { AddSalary, DeleteSalary, getSalary } from 'src/store/action/salary'
+import { AddSalary, DeleteSalary, getSalary, SearchSalary, UpdateSalary } from 'src/store/action/salary'
 import DeleteModal from '../DeleteModal'
 
 const Salary = () => {
@@ -36,7 +36,7 @@ const Salary = () => {
     dispatch(DeleteSalary(id))
     setDelete(false)
   }
-  const SalaryList = useSelector((state) => state.salary.salaryList)
+  const SalaryList = useSelector((state) => state.salary.NewSalaryList)
   const [Delete, setDelete] = useState(false)
   //add state
   const [visible, setVisible] = useState(false)
@@ -76,10 +76,16 @@ const Salary = () => {
       setGrossSalary('')
     })
   }
-  
+  const SearchSalaryHandler = (name) => {
 
-  const updateSalaryHandler=()=>{
-//console.log(idOfElementToBeUpdate);
+   dispatch(SearchSalary(name))
+  }
+
+  const updateSalaryHandler=(id)=>{
+    dispatch(UpdateSalary(updatestartdate, updatechargepaternes, updategrosssalary, updatename.value,id)).then(() => {
+      dispatch(getSalary())
+      setUpdateVisible(false)
+    })
   }
   return (
     <>
@@ -113,8 +119,11 @@ const Salary = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="text" placeholder="What are you looking for?" />
-                <CButton color="primary" size="sm">
+                <CFormInput type="search"
+                  placeholder="Search for..."
+                  value={name}
+                  onChange={(e) => setName(e.target.value)} />
+                <CButton color="primary" size="sm" onClick={(e) =>SearchSalaryHandler(name)}>
                   Search
                 </CButton>
                 <div style={{ width: '400px' }}> </div>
@@ -147,7 +156,7 @@ const Salary = () => {
           <CTableRow>
             <CTableHeaderCell>Employee Name</CTableHeaderCell>
             <CTableHeaderCell>Start Date</CTableHeaderCell>
-            <CTableHeaderCell>ChargePaternes</CTableHeaderCell>
+            <CTableHeaderCell>Bonuses</CTableHeaderCell>
             <CTableHeaderCell>Gross Salary</CTableHeaderCell>
             <CTableHeaderCell>Options</CTableHeaderCell>
           </CTableRow>

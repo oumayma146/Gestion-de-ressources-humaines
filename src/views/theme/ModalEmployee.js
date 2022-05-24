@@ -50,7 +50,7 @@ export default function ModalEmployee({employee,setEmplyee,id }) {
   <CTableHead title='Other Info'>
     <h4>Other Info</h4>
     <CTableRow color="primary">
-    <CTableHeaderCell scope="col">Password</CTableHeaderCell>
+  {/*   <CTableHeaderCell scope="col">Password</CTableHeaderCell> */}
       <CTableHeaderCell scope="col">CIN Number</CTableHeaderCell>
       <CTableHeaderCell scope="col">Bank Account Number</CTableHeaderCell>
       <CTableHeaderCell scope="col">Telephone Number</CTableHeaderCell>
@@ -63,8 +63,8 @@ export default function ModalEmployee({employee,setEmplyee,id }) {
     {employeeData?
     <>
  
-    <CTableRow>
-    <CTableHeaderCell scope="row">  {employeeData?.password}  </CTableHeaderCell>      
+    <CTableRow>{/* 
+    <CTableHeaderCell scope="row">  {employeeData?.password}  </CTableHeaderCell>   */}    
       <CTableHeaderCell scope="row">  {employeeData?.user_info?.numeroCIN}  </CTableHeaderCell>               
       <CTableHeaderCell scope="row">  {employeeData?.user_info?.numeroCarteBancaire }</CTableHeaderCell>
       <CTableHeaderCell scope="row">  {employeeData?.user_info?.numeroTelephone} </CTableHeaderCell>

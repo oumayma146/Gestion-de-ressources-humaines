@@ -25,7 +25,7 @@ import { cilMagnifyingGlass, cilTrash } from '@coreui/icons'
 import Modal from '../Modal'
 import { useDispatch, useSelector } from 'react-redux'
 import DeleteModal from '../DeleteModal'
-import { AddPermission, DeletePermission, getPermission } from 'src/store/action/permission'
+import { AddPermission, DeletePermission, getPermission, SearchPermission } from 'src/store/action/permission'
 import PermissionFrom from '../From/Permission'
 
 const Permission = () => {
@@ -37,7 +37,7 @@ const Permission = () => {
     dispatch(DeletePermission(id))
     setDelete(false)
   }
-  const ListPermission = useSelector((state) => state.permissions.permissions)
+  const ListPermission = useSelector((state) => state.permissions.NewpermissionsList)
 
   //add state
   const [visible, setVisible] = useState(false)
@@ -57,6 +57,10 @@ const Permission = () => {
       setStartDate('')
     })
   }
+  const SearchPermissionHandler = (name) => {
+ 
+   dispatch(SearchPermission(name))
+  }
   return (
     <>
       <CRow>
@@ -72,8 +76,11 @@ const Permission = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="text" placeholder="What are you looking for?" />
-                <CButton color="primary" size="sm">
+                <CFormInput type="search"
+                  placeholder="Search for..."
+                  value={name}
+                  onChange={(e) => setName(e.target.value)} />
+                <CButton color="primary" size="sm" onClick={(e) =>SearchPermissionHandler(name)}>
                   Search
                 </CButton>
                 <div style={{ width: '400px' }}> </div>
@@ -103,7 +110,6 @@ const Permission = () => {
           <CTableRow>
             <CTableHeaderCell>Id</CTableHeaderCell>
             <CTableHeaderCell>Permission Name</CTableHeaderCell>
-            <CTableHeaderCell>Guard Name</CTableHeaderCell>
             <CTableHeaderCell>Options</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
@@ -113,7 +119,6 @@ const Permission = () => {
               <CTableRow key={Math.random().toString()}>
                 <CTableDataCell>{elem.id}</CTableDataCell>
                 <CTableDataCell>{elem.name}</CTableDataCell>
-                <CTableDataCell>{elem.guard_name}</CTableDataCell>
 
                 <CTableDataCell>
                   <CButton color="link" onClick={() => onPressDeleteHandler(elem.id)} role="button">

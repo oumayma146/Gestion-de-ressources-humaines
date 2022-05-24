@@ -98,7 +98,7 @@ const _nav = [
     to: '/theme/ads',
     icon: <CIcon icon={cilAudioDescription} customClassName="nav-icon" />,
   },
-  {
+ /*  {
     component: CNavGroup,
     name: 'Pages',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
@@ -124,7 +124,7 @@ const _nav = [
         to: '/500',
       },
     ],
-  },
+  }, */
 ]
 
 export default _nav

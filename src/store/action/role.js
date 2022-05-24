@@ -4,7 +4,7 @@ export const ROLE ='ROLE';
 export const DELETEROLE ='DELETEROLE';
 export const ADDROLE ='ADDROLE';
 export const NAME ='NAME';
-
+export const SEARCHROLE ='SEARCHROLE';
 export const getRole = () => {
     return async (dispatch,getState) =>{
         const token = getState().auth.token;
@@ -42,8 +42,8 @@ export const AddRole = (title,list_permissions) => {
  export const UpdateRole = (id ,title,list_permissions) => {
     return async (dispatch,getState) =>{
         const token = getState().auth.token;
-        let permissions = [];
-        let list_permissions = JSON.stringify(permissions);
+     /*    let permissions = [];
+        let list_permissions = JSON.stringify(permissions); */
         let formData  = new FormData();
         formData.append("name", title);
         formData.append("permission",list_permissions);
@@ -68,3 +68,11 @@ export const getName = () => {
 
     };
 } 
+export const SearchRole=(name) => {
+    return async (dispatch,getState) =>{
+        const token = getState().auth.token;
+    
+     dispatch({type:SEARCHROLE,payload:{name,}});
+    
+    };
+}

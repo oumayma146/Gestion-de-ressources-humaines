@@ -46,10 +46,9 @@ export default function LeaveFrom({
   }
 
   const typeList = [
-    { label: 'sick leave', value: 'sick leave' },
-    { label: 'maternity leave', value: 'maternity leave' },
-    { label: 'paternity leave', value: 'paternity leave' },
-    { label: 'Unpaid leave', value: 'Unpaid leave' },
+    { label: 'congé de maladie', value: 'congé de maladie' },
+    { label: 'congé maternité', value: 'congé maternité' },
+    { label: 'Congé sans solde', value: 'Congé sans solde' },
   ]
 
   const Name = useSelector((state) => state.role.nameList)
@@ -73,7 +72,7 @@ export default function LeaveFrom({
       </CCol>
       <CCol xs={6}>
         <CFormLabel>Number Of Days </CFormLabel>
-        <CFormInput value={nbday} onInput={(e) => addNbDaysHandler(e)} type="text" />
+        <CFormInput value={nbday} onInput={(e) => addNbDaysHandler(e)} type="number" />
       </CCol>
       <CCol md={3}>
         <CFormLabel>Type</CFormLabel>

@@ -4,6 +4,7 @@ export const INSTRUCTOR ='INSTRUCTOR';
 export const DELETEINSTRUCTOR ='DELETEINSTRUCTOR';
 export const ADDINSTRUCTOR ='ADDINSTRUCTOR';
 export const NAME ='NAME';
+export const SEARCHINSTRUCTOR ='SEARCHINSTRUCTOR';
 
 export const getInstructor = () => {
     return async (dispatch,getState) =>{
@@ -48,3 +49,31 @@ export const getName = () => {
 
     };
 } 
+export const UpdateInstructor= (speciality,phonenumber,name,id) => {
+    return async (dispatch,getState) =>{
+        const token = getState().auth.token;
+        let formData  = new FormData();
+     
+        formData.append("nom", name);
+        formData.append("specialité",speciality);
+        formData.append("numero",phonenumber)
+        formData.append("_method", "put");
+        const response = await axios({
+            method: "POST",
+            url: `http://127.0.0.1:8000/api/formateur/update/${id}`,
+             data: formData,
+             headers: {"Authorization" :`Bearer ${token}`} ,
+             "Content-Type": "multipart/form-data" 
+            }) 
+           // console.log(response);
+    };
+
+}
+export const SearchInstructor= (name) => {
+    return async (dispatch,getState) =>{
+        const token = getState().auth.token;
+    
+     dispatch({type:SEARCHINSTRUCTOR,payload:{name,}});
+    
+    };
+}

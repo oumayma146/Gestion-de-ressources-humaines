@@ -1,14 +1,27 @@
 /* eslint-disable */
-import { DELETESALARY, SALARY} from "../action/salary";
+import { DELETESALARY, SALARY, SEARCHSALARY} from "../action/salary";
 const initialState = {
    salaryList:[],
- 
+ NewSalaryList:[],
 }
 const salaryReducer = (state = initialState, action) =>{
     switch (action.type) {
+       
+        case SEARCHSALARY:
+           
+            let NewSalaryList =[...state.salaryList];
+            const resultsalary=NewSalaryList.filter(elem=>{
+                return elem.user.name.includes(action.payload.name)
+            })
+            return {
+                ...state,
+                NewSalaryList: resultsalary,
+            };
         case SALARY:
             return {
+                ...state,
                 salaryList: action.payload.salaryList,
+                NewSalaryList: action.payload.salaryList,
 
             };
             case DELETESALARY:

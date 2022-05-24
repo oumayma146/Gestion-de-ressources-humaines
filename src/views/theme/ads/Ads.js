@@ -24,7 +24,7 @@ import { cilColorBorder, cilMagnifyingGlass, cilPlus, cilTrash } from '@coreui/i
 import Modal from '../Modal'
 import AdsFrom from '../From/AdsFrom'
 import DeleteModal from '../DeleteModal'
-import { AddAds, DeleteAds, getAds } from 'src/store/action/ads'
+import { AddAds, DeleteAds, getAds, SearchAds, UpdateAds } from 'src/store/action/ads'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Ads = () => {
@@ -32,7 +32,7 @@ const Ads = () => {
   const [visible, setVisible] = useState(false)
   const [date, setDate] = useState('')
   const [abs, setAbs] = useState('')
-  const [poster, setPoster] = useState('')
+  const [poster, setPoster] = useState(null)
   const [title, setTitle] = useState('')
   const [typeliste, setTypeliste] = useState([])
   //update state
@@ -48,18 +48,21 @@ const Ads = () => {
     setDelete(!Delete)
     setIdOfElementToBeDeleted(id)
   }
-  const AdsList = useSelector((state) => state.ads.adsList)
+  const AdsList = useSelector((state) => state.ads.NewadsList)
+
   const onPressUpdateHandler = (id) => {
     setUpdateVisible(!updatevisible)
     setIdOfElementToBeUpdate(id)
-    let newAds=AdsList.filter((el)=>{return id==el.id;});
-    console.log("newads",newAds);
+    let newAds = AdsList.filter((el) => {
+      return id == el.id
+    })
+    console.log('newads', newAds)
     setUpdateDate(newAds[0].date)
-    setUpdateAbs(newAds[0].resume )
+    setUpdateAbs(newAds[0].resume)
     setUpdateTitle(newAds[0].titre)
-    setUpdatePoster()
-    const ins = newAds[0]?.typeAnnonce.map(elem=>{
-      return {value:elem.id,label:elem.typeAnnonce}
+    setUpdatePoster(newAds[0].affiche)
+    const ins = newAds[0]?.typeAnnonce.map((elem) => {
+      return { value: elem.id, label: elem.typeAnnonce }
     })
     setUpdateTypeliste(ins)
   }
@@ -85,16 +88,28 @@ const Ads = () => {
       setTypeliste([])
     })
   }
-  const updateAdsHandler=()=>{
-  
-      }
+  const SearchAdsHandler = (title) => {
+    dispatch(SearchAds(title))
+  }
+  const updateAdsHandler = (id) => {
+    const UpdatelistOfTypes = updatetypeliste.map((elem) => {
+      return elem.value
+    })
+    dispatch(
+      UpdateAds(updatetitle, updateabs, updatedate, updateposter, UpdatelistOfTypes, id),
+    ).then(() => {
+      dispatch(getAds())
+      setUpdateVisible(false)
+    })
+  }
   return (
     <>
       <CRow>
         <Modal
           title={'Add new Ads'}
           visible={updatevisible}
-          setVisible={setUpdateVisible}addHandler={() =>updateAdsHandler(idOfElementToBeUpdate)}
+          setVisible={setUpdateVisible}
+          addHandler={() => updateAdsHandler(idOfElementToBeUpdate)}
         >
           <AdsFrom
             title={updatetitle}
@@ -121,8 +136,13 @@ const Ads = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="text" placeholder="What are you looking for?" />
-                <CButton color="primary" size="sm">
+                <CFormInput
+                  type="search"
+                  placeholder="Search for..."
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <CButton color="primary" size="sm" onClick={(e) => SearchAdsHandler(title)}>
                   Search
                 </CButton>
                 <div style={{ width: '400px' }}> </div>
@@ -171,14 +191,20 @@ const Ads = () => {
                   <CTableDataCell>{elem.titre}</CTableDataCell>
                   <CTableDataCell>{elem.resume}</CTableDataCell>
                   <CTableDataCell>{elem.date}</CTableDataCell>
-                  <CTableDataCell>{elem.affiche}</CTableDataCell>
+                  <CTableDataCell>
+                    {' '}
+                    <img
+                      width="50px"
+                      src={`http://localhost:8000/storage/annonce/image/${elem.affiche}`}
+                    />
+                  </CTableDataCell>
                   <CTableDataCell className="text-center">
                     {elem.typeAnnonce.map((elemnt) => {
                       return <div>{elemnt.typeAnnonce}</div>
                     })}
                   </CTableDataCell>
                   <CTableDataCell>
-                    <CButton color="link"onClick={() => onPressUpdateHandler(elem.id)}>
+                    <CButton color="link" onClick={() => onPressUpdateHandler(elem.id)}>
                       <CIcon size="xl" icon={cilColorBorder} />
                     </CButton>
 

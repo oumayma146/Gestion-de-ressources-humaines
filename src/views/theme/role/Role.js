@@ -27,7 +27,7 @@ import Modal from '../Modal'
 import DeleteModal from '../DeleteModal'
 import ModalPermission from '../ModalPermission'
 import { useDispatch, useSelector } from 'react-redux'
-import { AddRole, DeleteRole, getRole } from 'src/store/action/role'
+import { AddRole, DeleteRole, getRole, SearchRole } from 'src/store/action/role'
 import { getRolePermission } from 'src/store/action/RolePermission'
 
 const Role = () => {
@@ -36,7 +36,7 @@ const Role = () => {
     dispatch(getRole())
   }, [])
 
-  const RoleList = useSelector((state) => state.role.roleList)
+  const RoleList = useSelector((state) => state.role.NewroleList)
   const [visible, setVisible] = useState(false)
   const [visiblePermission, setVisiblePermission] = useState(false)
   const [Delete, setDelete] = useState(false)
@@ -67,7 +67,6 @@ const Role = () => {
     })
     setUpdateTitle(newRole[0].name)
     setUpdatePermission(newRole[0].permission)
-    
   }
 
   const deleteRoleHandler = (id) => {
@@ -82,16 +81,20 @@ const Role = () => {
       setTitle('')
     })
   }
-  const updateInstructorHandler=()=>{
-    //console.log(idOfElementToBeUpdate);
-      }
+  const SearchRoleHandler = (title) => {
+    dispatch(SearchRole(title))
+  }
+  const updateInstructorHandler = () => {
+
+  }
   return (
     <>
       <CRow>
         <Modal
           title={'AUpdate Role'}
           visible={updatevisible}
-          setVisible={setUpdateVisible} addHandler={() =>updateSalaryHandler(idOfElementToBeUpdate)} 
+          setVisible={setUpdateVisible}
+          addHandler={() => updateInstructorHandler(idOfElementToBeUpdate)}
         >
           <RoleFrom
             setTitle={setUpdateTitle}
@@ -112,8 +115,13 @@ const Role = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="text" placeholder="What are you looking for?" />
-                <CButton color="primary" size="sm">
+                <CFormInput
+                  type="search"
+                  placeholder="Search for..."
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <CButton color="primary" size="sm" onClick={(e) => SearchRoleHandler(title)}>
                   Search
                 </CButton>
                 <div style={{ width: '400px' }}> </div>
@@ -152,7 +160,7 @@ const Role = () => {
             return (
               <CTableRow key={elem.id}>
                 <CTableDataCell className="text-center">
-                  {elem.name} {elem.prenom}
+                  {elem.name} 
                 </CTableDataCell>
                 <CTableDataCell>
                   <CButton color="link" size="sm" onClick={() => openModalPermission(elem.id)}>
