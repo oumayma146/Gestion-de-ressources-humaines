@@ -3,23 +3,24 @@ import { CButton, CCol, CForm, CFormCheck, CFormInput, CFormLabel, CFormSelect }
 import React from 'react'
 
 
-export default function PermissionFrom({name,setName,guard_name, setGuard_name}) {
+export default function PermissionFrom({name,setName,addHandler, setGuard_name}) {
     const addNameHandler =(e)=>{
         setName(e.target.value)
       }
-      const addGuardHandler =(e)=>{
-        setGuard_name(e.target.value)
-      }
+   
   return (
     <CForm className="row g-3">
     <CCol md={12}>
       <CFormLabel htmlFor="inputName">Permission Name</CFormLabel>
-      <CFormInput type="name" value={name} onInput={e => addNameHandler(e)}/>
+      <CFormInput type="name" value={name} onInput={e => addNameHandler(e)}    id="validationDefault01"
+          required/>
     </CCol>
-  {/*   <CCol md={12}>
-      <CFormLabel htmlFor="inputName">Guard_Name</CFormLabel>
-      <CFormInput type="name" value={guard_name} onInput={e => addGuardHandler(e)}/>
-    </CCol> */}
+    <CCol xs={12}>
+        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+          <CButton color="primary" type="submit" onClick={addHandler} className="me-md-2">
+            Save
+          </CButton>
+        </div></CCol>
   </CForm>
   )
 }

@@ -117,6 +117,7 @@ const Employee = () => {
   const deleteEmployeeHandler = (id) => {
     dispatch(DeleteEmployee(id))
     setDelete(false)
+    dispatch(getEmployee())
   }
   const openModalEmployee = (id) => {
     dispatch(getEmployeeInfo(id))

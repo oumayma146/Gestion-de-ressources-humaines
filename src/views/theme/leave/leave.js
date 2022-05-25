@@ -43,7 +43,9 @@ const Leave = () => {
   const deleteLeaveHandler = (id) => {
     dispatch(DeleteLeave(id))
     setDelete(false)
+
   }
+
   const LeaveList = useSelector((state) => state.leave.NewLeaveList)
   //add state
   const [visible, setVisible] = useState(false)
@@ -53,6 +55,7 @@ const Leave = () => {
   const [nbday, setNbDays] = useState('')
   const [type, setType] = useState('')
   const [name, setName] = useState('')
+
   //update state
 
   const [updatevisible, setUpdateVisible] = useState(false)
@@ -64,10 +67,11 @@ const Leave = () => {
   const [idOfElementToBeUpdate, setIdOfElementToBeUpdate] = useState()
   const [idOfElementToBeDeleted, setIdOfElementToBeDeleted] = useState()
 
- 
+
   const onPressDeleteHandler = (id) => {
     setDelete(!Delete)
     setIdOfElementToBeDeleted(id)
+    dispatch(getLeave())
   }
   const updateLeaveHandler = (id) => {
     dispatch(
@@ -91,7 +95,9 @@ const Leave = () => {
     setUpdateType({ label: newsleave[0]?.typeCongee, value: newsleave[0]?.typeCongee })
   }
   const addleaveHandler = () => {
+
     dispatch(AddLeave(startdate, enddate, nbday, type, name)).then(() => {
+  
       dispatch(getLeave())
       setVisible(false)
       setName('')
@@ -101,6 +107,7 @@ const Leave = () => {
       setType('')
     })
   }
+  
 const SearchLeaveHandler = (name) => {
 
  dispatch(SearchLeave(name))
@@ -118,7 +125,7 @@ const SearchLeaveHandler = (name) => {
           title={'Update Leave'}
           visible={updatevisible}
           setVisible={setUpdateVisible}
-          addHandler={() => updateLeaveHandler(idOfElementToBeUpdate)}
+         
         >
           <LeaveFrom
             setEndDate={setUpdateEndDate}
@@ -131,6 +138,7 @@ const SearchLeaveHandler = (name) => {
             enddate={updateenddate}
             type={updatetype}
             nbday={updatenbday}
+            addHandler={() => updateLeaveHandler(idOfElementToBeUpdate)}
           />
         </Modal>
         <DeleteModal
@@ -161,7 +169,7 @@ const SearchLeaveHandler = (name) => {
                   title={'Add new Leave'}
                   visible={visible}
                   setVisible={setVisible}
-                  addHandler={() => addleaveHandler()}
+                
                 >
                   <LeaveFrom
                     setEndDate={setEndDate}
@@ -174,6 +182,7 @@ const SearchLeaveHandler = (name) => {
                     enddate={enddate}
                     type={type}
                     nbday={nbday}
+                    addHandler={() => addleaveHandler()}
                   />
                 </Modal>
               </CInputGroup>

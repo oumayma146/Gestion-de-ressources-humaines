@@ -73,6 +73,7 @@ const Ads = () => {
   const deleteTrainingHandler = (id) => {
     dispatch(DeleteAds(id))
     setDelete(false)
+    dispatch(getAds())
   }
   const addAdsHandler = () => {
     const listOfTypes = typeliste.map((elem) => {
@@ -109,7 +110,7 @@ const Ads = () => {
           title={'Add new Ads'}
           visible={updatevisible}
           setVisible={setUpdateVisible}
-          addHandler={() => updateAdsHandler(idOfElementToBeUpdate)}
+       
         >
           <AdsFrom
             title={updatetitle}
@@ -122,6 +123,7 @@ const Ads = () => {
             setPoster={setUpdatePoster}
             typeliste={updatetypeliste}
             setTypeliste={setUpdateTypeliste}
+            addHandler={() => updateAdsHandler(idOfElementToBeUpdate)}
           />
         </Modal>
         <DeleteModal
@@ -152,7 +154,7 @@ const Ads = () => {
                   title={'Add new Ads'}
                   visible={visible}
                   setVisible={setVisible}
-                  addHandler={() => addAdsHandler()}
+                 
                 >
                   <AdsFrom
                     title={title}
@@ -165,6 +167,7 @@ const Ads = () => {
                     setPoster={setPoster}
                     typeliste={typeliste}
                     setTypeliste={setTypeliste}
+                    addHandler={() => addAdsHandler()}
                   />
                 </Modal>
               </CInputGroup>

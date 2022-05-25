@@ -72,6 +72,7 @@ const Role = () => {
   const deleteRoleHandler = (id) => {
     dispatch(DeleteRole(id))
     setDelete(false)
+    dispatch(getRole())
   }
 
   const addRoleHandler = () => {
@@ -84,7 +85,7 @@ const Role = () => {
   const SearchRoleHandler = (title) => {
     dispatch(SearchRole(title))
   }
-  const updateInstructorHandler = () => {
+  const updateRoleHandler = () => {
 
   }
   return (
@@ -94,13 +95,14 @@ const Role = () => {
           title={'AUpdate Role'}
           visible={updatevisible}
           setVisible={setUpdateVisible}
-          addHandler={() => updateInstructorHandler(idOfElementToBeUpdate)}
+         
         >
           <RoleFrom
             setTitle={setUpdateTitle}
             setPermission={setUpdatePermission}
             permission={updatepermission}
             title={updatetitle}
+            addHandler={() => updateRoleHandler(idOfElementToBeUpdate)}
           />
         </Modal>
         <DeleteModal
@@ -133,13 +135,14 @@ const Role = () => {
                   title={'Add new Role'}
                   visible={visible}
                   setVisible={setVisible}
-                  addHandler={() => addRoleHandler()}
+                 
                 >
                   <RoleFrom
                     setTitle={setTitle}
                     setPermission={setPermission}
                     permission={permission}
                     title={title}
+                    addHandler={() => addRoleHandler()}
                   />
                 </Modal>
               </CInputGroup>

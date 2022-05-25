@@ -13,10 +13,9 @@ export default function Modal({title,visible,setVisible , children,addHandler,si
       {children}
     </CModalBody>
     <CModalFooter>
-      <CButton color="secondary" onClick={() => setVisible(false)}>
+  {/*   <CButton color="secondary" onClick={() => setVisible(false)}>
         Close
-      </CButton>
-      <CButton color="primary" type='submit' onClick={addHandler}>Save </CButton>
+      </CButton> */}
     </CModalFooter>
   </CModal>
 

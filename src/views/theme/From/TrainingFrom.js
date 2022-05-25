@@ -29,7 +29,11 @@ export default function TrainingFrom({
   setMode,
   list_instructor,
   setListInstructor,
+  addHandler,
 }) {
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getName())
@@ -66,40 +70,84 @@ export default function TrainingFrom({
   ]
 
   return (
-    <CForm className="row g-3">
+    <CForm className="row g-3" onSubmit={onSubmit}>
       <CCol md={6}>
         <CFormLabel>Date</CFormLabel>
-        <CFormInput type="date" value={date} onInput={(e) => addDateHandler(e)} />
+        <CFormInput
+          type="date"
+          value={date}
+          onInput={(e) => addDateHandler(e)}
+          id="validationDefault01"
+          required
+        />
       </CCol>
       <CCol md={6}>
         <CFormLabel>Number Hour</CFormLabel>
-        <CFormInput type="text" value={nbHour} onInput={(e) => addNbhourHandler(e)} />
+        <CFormInput
+          type="text"
+          value={nbHour}
+          onInput={(e) => addNbhourHandler(e)}
+          id="validationDefault02"
+          required
+        />
       </CCol>
       <CCol xs={6}>
         <CFormLabel>Title</CFormLabel>
-        <CFormInput type="text" value={title} onInput={(e) => addTitleHandler(e)} />
+        <CFormInput
+          type="text"
+          value={title}
+          onInput={(e) => addTitleHandler(e)}
+          id="validationDefault03"
+          required
+        />
       </CCol>
       <CCol xs={6}>
         <CFormLabel>Place </CFormLabel>
-        <CFormInput value={place} onInput={(e) => addPlaceHandler(e)} />
+        <CFormInput
+          value={place}
+          onInput={(e) => addPlaceHandler(e)}
+          id="validationDefault04"
+          required
+        />
       </CCol>
       <CCol xs={6}>
         <CFormLabel htmlFor="inputAddress">Price </CFormLabel>
-        <CFormInput type="text " value={price} onInput={(e) => addPriceHandler(e)} />
+        <CFormInput
+          type="text "
+          value={price}
+          onInput={(e) => addPriceHandler(e)}
+          id="validationDefault05"
+          required
+        />
       </CCol>
       <CCol md={6}>
         <CFormLabel htmlFor="inputState">Mode of payment</CFormLabel>
-        <Select defaultValue={mode} onChange={setMode} options={ModeList} />
+        <Select
+          defaultValue={mode}
+          onChange={setMode}
+          options={ModeList}
+          id="validationDefault06"
+          required
+        />
       </CCol>
       <CCol md={6}>
         <CFormLabel htmlFor="inputState">Instructor</CFormLabel>
         <div>
           <MultiSelect
+            id="validationDefault07"
+            required
             options={nameInstructor}
             value={list_instructor}
             onChange={setListInstructor}
             labelledBy="Select"
           />
+        </div>
+      </CCol>
+      <CCol xs={12}>
+        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+          <CButton color="primary" type="submit" onClick={addHandler} className="me-md-2">
+            Save
+          </CButton>
         </div>
       </CCol>
     </CForm>

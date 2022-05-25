@@ -36,6 +36,7 @@ const Permission = () => {
   const deletePermissionHandler = (id) => {
     dispatch(DeletePermission(id))
     setDelete(false)
+    dispatch(getPermission())
   }
   const ListPermission = useSelector((state) => state.permissions.NewpermissionsList)
 
@@ -91,13 +92,12 @@ const Permission = () => {
                   title={'Add new Permission'}
                   visible={visible}
                   setVisible={setVisible}
-                  addHandler={() => addPermissionHandler()}
+               
                 >
                   <PermissionFrom
                     name={name}
                     setName={setName}
-                    guard_name={guard_name}
-                    setGuard_name={setGuard_name}
+                    addHandler={() => addPermissionHandler()}
                   />
                 </Modal>
               </CInputGroup>

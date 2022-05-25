@@ -43,6 +43,7 @@ const Training = () => {
   const deleteTrainingHandler = (id) => {
     dispatch(DeleteTraining(id))
     setDelete(false)
+    dispatch(getTraining())
   }
   const TrainingList = useSelector((state) => state.training.NewtrainingList)
   //add state
@@ -132,7 +133,7 @@ const Training = () => {
           title={'UpdateTraining'}
           visible={updatevisible}
           setVisible={setUpdateVisible}
-          addHandler={() => updateTraningHandler(idOfElementToBeUpdate)}
+         
         >
           <TrainingFrom
             date={updatedate}
@@ -149,6 +150,7 @@ const Training = () => {
             setTitle={setUpdateTitle}
             mode={updatemode}
             setMode={setUpdateMode}
+            addHandler={() => updateTraningHandler(idOfElementToBeUpdate)}
           />
         </Modal>
         <DeleteModal
@@ -177,7 +179,7 @@ const Training = () => {
                   title={'Add new Training'}
                   visible={visible}
                   setVisible={setVisible}
-                  addHandler={() => addTrainigHandler()}
+               
                 >
                   <TrainingFrom
                     date={date}
@@ -194,6 +196,7 @@ const Training = () => {
                     setTitle={setTitle}
                     mode={mode}
                     setMode={setMode}
+                    addHandler={() => addTrainigHandler()}
                   />
                 </Modal>
               </CInputGroup>

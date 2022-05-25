@@ -71,6 +71,8 @@ const Instructor = () => {
   }, [])
   const deleteInstructorHandler = (id) => {
     dispatch(DeleteInstructor(id))
+    setDelete(false)
+    dispatch(getInstructor())
   }
   const addInstructorHandler = () => {
     dispatch(AddInstructor(speciality, phonenumber, name)).then(() => {
@@ -97,7 +99,7 @@ const Instructor = () => {
         <Modal
           title={'UpdateInstructor'}
           visible={updatevisible}
-          setVisible={setUpdateVisible} addHandler={() =>updateInstructorHandler(idOfElementToBeUpdate)} 
+          setVisible={setUpdateVisible} 
         >
           <InstructorFrom
             name={updatename}
@@ -106,6 +108,7 @@ const Instructor = () => {
             setPhonneNumber={setUpdatePhonneNumber}
             speciality={updatespeciality}
             setSpeciality={setUpdateSpeciality}
+            addHandler={() =>updateInstructorHandler(idOfElementToBeUpdate)} 
           />
         </Modal>
         <DeleteModal
@@ -134,7 +137,7 @@ const Instructor = () => {
                   title={'Add new Instructor'}
                   visible={visible}
                   setVisible={setVisible}
-                  addHandler={() => addInstructorHandler()}
+                 
                 >
                   <InstructorFrom
                     name={name}
@@ -143,6 +146,7 @@ const Instructor = () => {
                     setPhonneNumber={setPhonneNumber}
                     speciality={speciality}
                     setSpeciality={setSpeciality}
+                    addHandler={() => addInstructorHandler()}
                   />
                 </Modal>
               </CInputGroup>

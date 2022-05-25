@@ -65,6 +65,7 @@ const Salary = () => {
   const onPressDeleteHandler = (id) => {
     setDelete(!Delete)
     setIdOfElementToBeDeleted(id)
+    dispatch(getSalary())
   }
   const addSalaryHandler = () => {console.log(name);
     dispatch(AddSalary(startdate, chargepaternes, grosssalary, name.value)).then(() => {
@@ -93,7 +94,7 @@ const Salary = () => {
         <Modal
           title={'UpDate Salary'}
           visible={updatevisible}
-          setVisible={setUpdateVisible} addHandler={() =>updateSalaryHandler(idOfElementToBeUpdate)} 
+          setVisible={setUpdateVisible} 
         >
           <SalaryFrom
      
@@ -105,6 +106,7 @@ const Salary = () => {
             chargepaternes={updatechargepaternes}
             grosssalary={updategrosssalary}
             startdate={updatestartdate}
+            addHandler={() =>updateSalaryHandler(idOfElementToBeUpdate)} 
           />
         </Modal>
         <DeleteModal
@@ -133,7 +135,7 @@ const Salary = () => {
                   title={'Add new Salary'}
                   visible={visible}
                   setVisible={setVisible}
-                  addHandler={() => addSalaryHandler()}
+                  
                 >
                   <SalaryFrom
                     setChargePaternes={setChargePaternes}
@@ -144,6 +146,7 @@ const Salary = () => {
                     chargepaternes={chargepaternes}
                     grosssalary={grosssalary}
                     startdate={startdate}
+                    addHandler={() => addSalaryHandler()}
                   />
                 </Modal>
               </CInputGroup>

@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPermission } from 'src/store/action/permission'
 
 
-export default function RoleFrom({setTitle,setPermission,permission,title}) {
+export default function RoleFrom({setTitle,setPermission,permission,title,addHandler}) {
   const dispatch =useDispatch();
   useEffect(() => {
     dispatch(getPermission());
   }, [])
-
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
   const checkValue = (e) => {
  let list_permissions =[...permission]
  list_permissions.push(e.target.value)
@@ -25,22 +27,30 @@ export default function RoleFrom({setTitle,setPermission,permission,title}) {
   const Permission = useSelector(state => state.permissions.permissions);
 
   return (
-    <CForm className="row g-3">
+    <CForm className="row g-3" onSubmit={onSubmit}>
     <CCol md={6}>
       <CFormLabel >Title</CFormLabel>
-      <CFormInput type="text" value={title} onInput={e => addTitleHandler(e)} />
+      <CFormInput type="text" value={title} onInput={e => addTitleHandler(e)} id="validationDefault01"
+          required/>
     </CCol>
     
     <CFormLabel htmlFor="inputAddress">Permission</CFormLabel>
     {Permission.map((elem)=>{
       return(
       <CCol xs={2}> 
-      <CFormCheck  onChange={checkValue} value={elem.id} id={elem.id} label={elem.name}/>
+      <CFormCheck  onChange={checkValue} value={elem.id} id={elem.id} label={elem.name} 
+     />
     </CCol>
       )
     })}
     
-   
+    <CCol xs={12}>
+        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+          <CButton color="primary" type="submit" onClick={addHandler} className="me-md-2">
+            Save
+          </CButton>
+        </div>
+      </CCol>
   </CForm>
   )
   }

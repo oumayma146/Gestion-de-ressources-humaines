@@ -50,14 +50,14 @@ const Configuration = () => {
        
           <CInputGroup className="input-prepend">
           <CButton onClick={() => setVisiblelang(!visiblelang)}>ADD New Languges</CButton>
-          <Modal size={true} title={"Add new Languge"} visible={visiblelang} setVisible={setVisiblelang} addHandler={()=>addLangugeHandler(languge)} >
-            <LangugesFrom languge={languge} setLanguge={setLanguge}/>
+          <Modal size={true} title={"Add new Languge"} visible={visiblelang} setVisible={setVisiblelang}  >
+            <LangugesFrom languge={languge} setLanguge={setLanguge} addHandler={()=>addLangugeHandler(languge)}/>
           </Modal> 
           
           <div style={{"width":"40px"}} ></div>
              <CButton onClick={() => setVisibleskill(!visibleskill)}>ADD New Skills</CButton>
-            < Modal size="md" title={"Add new Skill"} visible={visibleskill} setVisible={setVisibleskill} addHandler={()=>addSkillHandler(skill)} >
-            <SkillsFrom skill={skill} setSkill={setSkill}/>
+            < Modal size="md" title={"Add new Skill"} visible={visibleskill} setVisible={setVisibleskill}  >
+            <SkillsFrom skill={skill} setSkill={setSkill} addHandler={()=>addSkillHandler(skill)}/>
           </Modal> 
             </CInputGroup>
           </CCardHeader>

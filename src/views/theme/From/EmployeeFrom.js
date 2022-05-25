@@ -37,6 +37,7 @@ export default function EmployeeFrom({
   setBAnum,
   Tnumber,
   setTnumber,
+  addHandler
 }) {
   const addPasswordHandler = (e) => {
     setPassword(e.target.value)
@@ -171,6 +172,13 @@ export default function EmployeeFrom({
       <CCol xs={4}>
         <CFormLabel>Telephone Number</CFormLabel>
         <CFormInput  value={Tnumber} onInput={(e) => addTnumberHandler(e)} />
+      </CCol>
+      <CCol xs={12}>
+        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+          <CButton color="primary" type="submit" onClick={addHandler} className="me-md-2">
+            Save
+          </CButton>
+        </div>
       </CCol>
     </CForm>
   )

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -18,28 +18,28 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import hello from './../../../assets/images/12.png'
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { auth } from 'src/store/action/auth'
 
- 
- function Login() {
-  const dispatch =useDispatch();
-  const [userEmail, setUserEmail] = useState();
-  const [password, setPassword] = useState();
-   const navigate = useNavigate();
-   const token = useSelector(state => state.auth.token);
+function Login() {
+  const dispatch = useDispatch()
+  const [userEmail, setUserEmail] = useState()
+  const [password, setPassword] = useState()
+  const navigate = useNavigate()
+  const token = useSelector((state) => state.auth.token)
 
-
-   useEffect(() => {
-     if(token || localStorage.getItem('token') ){
-      navigate("/dashboard")
-     }
-   },[token]);
-  async function login()
-  {dispatch(auth(userEmail,password));
+  useEffect(() => {
+    if (token || localStorage.getItem('token')) {
+      navigate('/dashboard')
+    }
+  }, [token])
+  async function login() {
+    dispatch(auth(userEmail, password))
   }
-
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -48,14 +48,20 @@ import { auth } from 'src/store/action/auth'
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm >
+                  <CForm onSubmit={onSubmit}>
                     <h1>Login</h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Useremail" autoComplete="useremail"onChange={e => setUserEmail(e.target.value)} />
+                      <CFormInput
+                        placeholder="Useremail"
+                        autoComplete="useremail"
+                        onChange={(e) => setUserEmail(e.target.value)}
+                        id="validationDefault01"
+                        required
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -65,16 +71,18 @@ import { auth } from 'src/store/action/auth'
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
-                        onChange={e => setPassword(e.target.value)} 
+                        onChange={(e) => setPassword(e.target.value)}
+                        id="validationDefault02"
+                        required
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4" onClick={login}>
+                        <CButton color="primary" className="px-4" type='submit' onClick={login}>
                           Login
                         </CButton>
                       </CCol>
-                    {/*   <CCol xs={6} className="text-right">
+                      {/*   <CCol xs={6} className="text-right">
                         <CButton color="link" className="px-0">
                           Forgot password?
                         </CButton>
@@ -88,8 +96,14 @@ import { auth } from 'src/store/action/auth'
                   <div>
                     <h2>Human Resource Management</h2>
                     <p>welcome back</p>
-                    <CImage CImage align="center" rounded src={hello} width={200} height={200}></CImage>
-            
+                    <CImage
+                      CImage
+                      align="center"
+                      rounded
+                      src={hello}
+                      width={200}
+                      height={200}
+                    ></CImage>
                   </div>
                 </CCardBody>
               </CCard>
