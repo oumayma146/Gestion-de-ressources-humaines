@@ -36,7 +36,7 @@ const employeeReducer = (state = initialState, action) =>{
                     adsList: result,
                 };
                 case EMPLOYEEINFO:
-                    console.log("hi",action.payload.EmployeeInfo);
+                    
                     return {
                         ...state,
                         EmployeeInfos: action.payload.EmployeeInfo,

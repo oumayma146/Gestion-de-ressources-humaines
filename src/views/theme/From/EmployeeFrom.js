@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRole } from 'src/store/action/role'
 import Select from 'react-select'
+import { AddEmployee } from 'src/store/action/Employee'
 
 export default function EmployeeFrom({
   setRole,
@@ -37,8 +38,21 @@ export default function EmployeeFrom({
   setBAnum,
   Tnumber,
   setTnumber,
+  Gender,
+  description,
+  setDescription,
   addHandler
 }) {
+  const onSubmit = (e) => {
+    e.preventDefault();
+  
+  };
+  const addEmployeeHandler = () => {
+    dispatch(AddEmployee(name,Lastname,email,adress,state,Gender,password,cinNum,BAnum,Tnumber))
+    }
+  const addDescriptionHandler = (e) => {
+    setDescription(e.target.value)
+  }
   const addPasswordHandler = (e) => {
     setPassword(e.target.value)
   }
@@ -93,7 +107,7 @@ export default function EmployeeFrom({
   ]
 
   return (
-    <CForm className="row g-3">
+    <CForm className="row g-3" onSubmit={onSubmit}>
       <CCol md={6}>
         <CFormLabel htmlFor="inputName">Name</CFormLabel>
         <CFormInput type="input" value={name} onInput={(e) => addNameHandler(e)} />
@@ -156,26 +170,31 @@ export default function EmployeeFrom({
           onChange={(e) => addGanderHandler(e)}
           defaultChecked
         />
+        
       </CCol>
       <CCol md={4}>
         <CFormLabel htmlFor="inputGender">Role</CFormLabel>
         <Select defaultValue={role} onChange={setRole} options={roleList} />
       </CCol>
-      <CCol xs={4}>
+      <CCol xs={3}>
+        <CFormLabel>Post Description</CFormLabel>
+        <CFormInput  value={description} onInput={(e) => addDescriptionHandler(e)} />
+      </CCol>
+      <CCol xs={3}>
         <CFormLabel>CIN Number</CFormLabel>
         <CFormInput id="inputCIN" value={cinNum} onInput={(e) => addCinNumHandler(e)} />
       </CCol>
-      <CCol xs={4}>
+      <CCol xs={3}>
         <CFormLabel>Bank Account Number</CFormLabel>
         <CFormInput  value={BAnum} onInput={(e) => addBAnumHandler(e)} />
       </CCol>
-      <CCol xs={4}>
+      <CCol xs={3}>
         <CFormLabel>Telephone Number</CFormLabel>
         <CFormInput  value={Tnumber} onInput={(e) => addTnumberHandler(e)} />
       </CCol>
       <CCol xs={12}>
         <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-          <CButton color="primary" type="submit" onClick={addHandler} className="me-md-2">
+          <CButton color="primary" type="submit" onClick={addEmployeeHandler} className="me-md-2">
             Save
           </CButton>
         </div>

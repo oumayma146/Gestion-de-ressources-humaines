@@ -22,7 +22,7 @@ import { cilColorBorder, cilMagnifyingGlass, cilPlus, cilShortText, cilTrash } f
 import Modal from '../Modal'
 import Tabs from './Tabs'
 import { useDispatch, useSelector } from 'react-redux'
-import { DeleteEmployee, getEmployee, getEmployeeInfo, SearchEmployee } from 'src/store/action/Employee'
+import { AddEmployee, DeleteEmployee, getEmployee, getEmployeeInfo, SearchEmployee } from 'src/store/action/Employee'
 import DeleteModal from '../DeleteModal'
 import ModalEmployee from '../ModalEmployee'
 const Employee = () => {
@@ -50,6 +50,7 @@ const Employee = () => {
   const [Nhour, setNhour] = useState()
   const [Rnumber, setRnumber] = useState()
   const [password, setPassword] = useState()
+  const [description, setDescription] = useState()
   const [role, setRole] = useState()
   const [type, setType] = useState()
   //update state
@@ -88,7 +89,7 @@ const Employee = () => {
     let newEmploye = EmployeeList.filter((el) => {
       return id == el.id
     })
-    console.log('new', newEmploye[0].statu)
+ 
     setUpdateSkill()
     setUpdateGender(newEmploye[0].genre)
     setUpdateEducation([])
@@ -124,11 +125,13 @@ const Employee = () => {
     setEmplyee(!employee)
   }
   const updateEmployeeHandler = () => {
-    //console.log(idOfElementToBeUpdate);
+
   }
   const SearchEmployeeHandler = (name) => {
-    
-       dispatch(SearchEmployee(name))
+      dispatch(SearchEmployee(name))
+  }
+  const addEmployeeHandler = () => {
+  dispatch(AddEmployee())
   }
   return (
     <>
@@ -177,6 +180,8 @@ const Employee = () => {
             setRole={setRole}
             type={type}
             setType={setType}
+            description={description}
+            setDescription={setDescription}
           ></Tabs>
         </Modal>
         <DeleteModal

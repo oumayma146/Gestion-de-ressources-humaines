@@ -28,24 +28,86 @@ export const getEmployeeInfo = (id) => {
         const token = getState().auth.token;
         const response = await axios.get(`http://127.0.0.1:8000/api/users/employee/${id}`,{ headers: {"Authorization" :`Bearer ${token}` }} 
         )
-   console.log('emp',response.data.user_info );
+  
         dispatch({type:EMPLOYEEINFO,payload:{EmployeeInfo:response.data.user_info ,}});
     };
 }
-export const AddEmployee= () => {
+export const AddEmployee= (name,Lastname,email,adress,state,Gender,password,cinNum,BAnum,Tnumber,post,description) => {
     return async (dispatch,getState) =>{
         const token = getState().auth.token;
-        let formData  = new FormData();
+    const    data={
+            "user":{
+                   "name":name,
+                   "prenom":Lastname,
+                    "email":email,
+                    "adresse":adress,
+                    "statu":state,
+                    "genre":Gender,
+                    "password":password
+                  
+          },
+                    "user_info":{
+                
+                    "numeroCIN":cinNum,
+                    "numeroCarteBancaire": BAnum,
+                    "numeroTelephone":  Tnumber
+              },
+             "contrat":{
+             
+                  "debutdate":"2022-04-01",
+                    "findate" :"2022-04-06",
+                    "matricule":"23346",
+                    "nbheure":"24",
+                    "typeContart":"CDI"
+                   
+             },
+            
+              "competance_ids":[1,3,5,2] ,
+               "langue_ids":[1,2,3],
+               "role_id":[3],
+        
+               "posts":[{
+             
+                   "title":"pddd",
+                   "description":"kkkkk"
+                   
+               }],
+              
+               "cartification":[{
+                
+                   "titre":"redux",
+                   "date":"2022-04-01",
+                   "source":"5555"
+                  
+               },
+               {
+                    "titre":"react",
+                   "date":"2022-04-01",
+                   "source":"dd"
+                            
+               }] ,
+               "education":[{
+                   
+                   "diplome":"master"
+                   
+                
+               }]
+             
+              
+             
+                
+        }
+      /*   let formData  = new FormData();
        
         formData.append("debut", startdate);
         formData.append("fin",enddate);
         formData.append("nbJour", nbday);
         formData.append("typeCongee", type);
-        formData.append("user",name)
+        formData.append("user",name) */
         const response = await axios({
             method: "POST",
             url: `http://127.0.0.1:8000/api/users/create`,
-             data: formData,
+             data: data,
              headers: {"Authorization" :`Bearer ${token}`} ,
              "Content-Type": "multipart/form-data" 
             })

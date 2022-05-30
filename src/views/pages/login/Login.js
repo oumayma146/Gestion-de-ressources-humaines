@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
+  CAlert,
   CButton,
   CCard,
   CCardBody,
@@ -24,10 +25,17 @@ import { auth } from 'src/store/action/auth'
 
 function Login() {
   const dispatch = useDispatch()
+  const [visible, setVisible] = useState(false)
   const [userEmail, setUserEmail] = useState()
   const [password, setPassword] = useState()
   const navigate = useNavigate()
   const token = useSelector((state) => state.auth.token)
+  const Alertt = useSelector((state) => state.auth.alert)
+  useEffect(() => {
+    if (Alertt) {
+      setVisible(true)
+    }
+  }, [Alertt])
 
   useEffect(() => {
     if (token || localStorage.getItem('token')) {
@@ -78,10 +86,19 @@ function Login() {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4" type='submit' onClick={login}>
+                        <CButton color="primary" className="px-4" type="submit" onClick={login}>
                           Login
                         </CButton>
                       </CCol>
+
+                      <CAlert
+                        color="info"
+                        visible={visible}
+                        dismissible
+                        onClose={() => setVisible(false)}
+                      >
+                        verify your email and password
+                      </CAlert>
                       {/*   <CCol xs={6} className="text-right">
                         <CButton color="link" className="px-0">
                           Forgot password?

@@ -11,7 +11,7 @@ export default function ModalEmployee({employee,setEmplyee,id }) {
     setEmplyeeData(EmployeeInfo)
   },)
   
-    console.log('data',EmployeeInfo);
+ 
 
   
   return (

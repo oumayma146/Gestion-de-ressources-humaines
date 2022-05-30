@@ -4,6 +4,7 @@ import { ADS, DELETEADS, SEARCHADS } from "../action/ads";
 const initialState = {
     adsList:[],
     NewadsList:[],
+
  
 }
 const adsReducer = (state = initialState, action) =>{

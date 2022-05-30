@@ -84,7 +84,7 @@ export default function MoreInfoFrom({
     edu.push({ id: Math.random(), text: educ })
     setEducation(edu)
   }
-  console.log('addeduc', Education)
+
   const addCertifhandler = () => {
     let cert = [...Certificates]
     cert.push({ id: Math.random(), title: '', date: '', source: '' })

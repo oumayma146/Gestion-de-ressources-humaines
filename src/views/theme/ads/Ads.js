@@ -198,7 +198,7 @@ const Ads = () => {
                     {' '}
                     <img
                       width="50px"
-                      src={`http://localhost:8000/storage/annonce/image/${elem.affiche}`}
+                      src={`http://localhost:8000/storage/${elem.affiche}`}
                     />
                   </CTableDataCell>
                   <CTableDataCell className="text-center">
