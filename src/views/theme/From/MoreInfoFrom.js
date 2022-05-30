@@ -175,23 +175,23 @@ export default function MoreInfoFrom({
           <div style={{ flex: 0.8, marginRight: '20px' }}>
             <CFormLabel>Start Date</CFormLabel>
             <CCol sm={10}>
-              <CFormInput type="date" value={startDate} onInput={(e) => addStartDateHandler(e)} />
+              <CFormInput type="date" value={startDate} onInput={(e) => addStartDateHandler(e)} required />
             </CCol>
             <CFormLabel>End Date</CFormLabel>
             <CCol sm={10}>
-              <CFormInput type="date" value={endDate} onInput={(e) => addEndDateHandler(e)} />
+              <CFormInput type="date" value={endDate} onInput={(e) => addEndDateHandler(e)} required />
             </CCol>
             <CFormLabel>Registration Number</CFormLabel>
             <CCol sm={10}>
-              <CFormInput type="text" value={Rnumber} onInput={(e) => addRgNumberHandler(e)} />
+              <CFormInput type="text" value={Rnumber} onInput={(e) => addRgNumberHandler(e)} required />
             </CCol>
             <CFormLabel>Number Of Hours</CFormLabel>
             <CCol sm={10}>
-              <CFormInput type="text" value={Nhour} onInput={(e) => addNhourHandler(e)} />
+              <CFormInput type="text" value={Nhour} onInput={(e) => addNhourHandler(e)} required />
             </CCol>
             <CFormLabel>Type</CFormLabel>
             <CCol sm={10}>
-            <Select defaultValue={type} onChange={setType} options={typeList} />
+            <Select defaultValue={type} onChange={setType} options={typeList} required />
              
             </CCol>
           </div>

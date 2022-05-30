@@ -13,9 +13,6 @@ export default function Modal({title,visible,setVisible , children,addHandler,si
       {children}
     </CModalBody>
     <CModalFooter>
-  {/*   <CButton color="secondary" onClick={() => setVisible(false)}>
-        Close
-      </CButton> */}
     </CModalFooter>
   </CModal>
 

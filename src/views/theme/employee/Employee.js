@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AddEmployee, DeleteEmployee, getEmployee, getEmployeeInfo, SearchEmployee } from 'src/store/action/Employee'
 import DeleteModal from '../DeleteModal'
 import ModalEmployee from '../ModalEmployee'
+import EmployeeFrom from '../From/EmployeeFrom'
 const Employee = () => {
   const [updatevisible, setUpdateVisible] = useState(false)
   const EmployeeList = useSelector((state) => state.emp.NewemployeeList)
@@ -36,7 +37,7 @@ const Employee = () => {
   const [visible, setVisible] = useState(false)
   const [employee, setEmplyee] = useState(false)
   const [Certificates, setCertificates] = useState([])
-  const [state, setState] = useState()
+  const [status, setStatus] = useState()
   const [name, setName] = useState()
   const [Lastname, setLastname] = useState()
   const [email, setEmail] = useState()
@@ -60,7 +61,7 @@ const Employee = () => {
   const [updateEducation, setUpdateEducation] = useState([])
   const [updatelanguge, setUpdateLanguge] = useState([])
   const [updateCertificates, setUpdateCertificates] = useState([])
-  const [updateState, setUpdateState] = useState()
+  const [updateStatus, setUpdateStatus] = useState()
   const [updateName, setUpdateName] = useState()
   const [updateLastname, setUpdateLastname] = useState()
   const [updateEmail, setUpdateEmail] = useState()
@@ -95,7 +96,7 @@ const Employee = () => {
     setUpdateEducation([])
     setUpdateLanguge([])
     setUpdateCertificates([])
-    setUpdateState(newEmploye[0].statu)
+    setUpdateStatus(newEmploye[0].statu)
     setUpdateName(newEmploye[0].name)
     setUpdateLastname(newEmploye[0].prenom)
     setUpdateEmail(newEmploye[0].email)
@@ -131,13 +132,15 @@ const Employee = () => {
       dispatch(SearchEmployee(name))
   }
   const addEmployeeHandler = () => {
-  dispatch(AddEmployee())
+    dispatch(
+      AddEmployee(name, Lastname, email, adress, status, Gender, password, cinNum, BAnum, Tnumber),
+    )
   }
   return (
     <>
       <CRow>
         <Modal title={'Add New Employee'} visible={visible} setVisible={setVisible}>
-          <Tabs
+          <EmployeeFrom
             Gender={Gender}
             setGender={setGender}
             BAnum={BAnum}
@@ -158,8 +161,8 @@ const Employee = () => {
             setCinNum={setCinNum}
             Tnumber={Tnumber}
             setTnumber={setTnumber}
-            state={state}
-            setState={setState}
+            status={status}
+            setStatus={setStatus}
             skill={skill}
             setSkill={setSkill}
             languge={languge}
@@ -182,7 +185,8 @@ const Employee = () => {
             setType={setType}
             description={description}
             setDescription={setDescription}
-          ></Tabs>
+            addHandler={() => addEmployeeHandler()}
+          ></EmployeeFrom>
         </Modal>
         <DeleteModal
           Delete={Delete}
@@ -195,7 +199,7 @@ const Employee = () => {
           setVisible={setUpdateVisible}
           addHandler={() => updateEmployeeHandler(idOfElementToBeUpdate)}
         >
-          <Tabs
+          <EmployeeFrom
             Gender={updateGender}
             setGender={setUpdateGender}
             BAnum={updateBAnum}
@@ -216,8 +220,8 @@ const Employee = () => {
             setCinNum={setUpdateCinNum}
             Tnumber={updateTnumber}
             setTnumber={setUpdateTnumber}
-            state={updateState}
-            setState={setUpdateState}
+            status={updateStatus}
+            setStatus={setUpdateStatus}
             skill={updateSkill}
             setSkill={setUpdateSkill}
             languge={updatelanguge}
@@ -238,7 +242,8 @@ const Employee = () => {
             setRole={setUpdateRole}
             type={updateType}
             setType={setUpdateType}
-          ></Tabs>
+            addHandler={() => updateEmployeeHandler()}
+          ></EmployeeFrom>
         </Modal>
         <CCol xs={12}>
           <CCard className="mb-4">
@@ -270,7 +275,7 @@ const Employee = () => {
             <CTableHeaderCell>Email</CTableHeaderCell>
             <CTableHeaderCell>Adresse</CTableHeaderCell>
             <CTableHeaderCell>Gender</CTableHeaderCell>
-            <CTableHeaderCell>State</CTableHeaderCell>
+            <CTableHeaderCell>status</CTableHeaderCell>
             <CTableHeaderCell>Poste</CTableHeaderCell>
             <CTableHeaderCell>Options</CTableHeaderCell>
           </CTableRow>

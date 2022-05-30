@@ -32,7 +32,7 @@ export const getEmployeeInfo = (id) => {
         dispatch({type:EMPLOYEEINFO,payload:{EmployeeInfo:response.data.user_info ,}});
     };
 }
-export const AddEmployee= (name,Lastname,email,adress,state,Gender,password,cinNum,BAnum,Tnumber,post,description) => {
+export const AddEmployee= (name,Lastname,email,adress,status,Gender,password,cinNum,BAnum,Tnumber,post,description) => {
     return async (dispatch,getState) =>{
         const token = getState().auth.token;
     const    data={
@@ -41,7 +41,7 @@ export const AddEmployee= (name,Lastname,email,adress,state,Gender,password,cinN
                    "prenom":Lastname,
                     "email":email,
                     "adresse":adress,
-                    "statu":state,
+                    "statu":status,
                     "genre":Gender,
                     "password":password
                   
