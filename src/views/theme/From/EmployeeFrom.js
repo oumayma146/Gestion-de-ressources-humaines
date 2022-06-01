@@ -129,6 +129,7 @@ const typeList = [
   }
   const addGanderHandler = (e) => {
     setGender(e.target.value)
+   
   }
   const dispatch = useDispatch()
   useEffect(() => {
@@ -203,7 +204,7 @@ const typeList = [
           type="password"
           value={password}
           onInput={(e) => addPasswordHandler(e)}
-          placeholder="password here"
+          placeholder="min 6 carectere"
         />
       </CCol>
       <CCol xs={12}>

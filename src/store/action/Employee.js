@@ -32,16 +32,18 @@ export const getEmployeeInfo = (id) => {
         dispatch({type:EMPLOYEEINFO,payload:{EmployeeInfo:response.data.user_info ,}});
     };
 }
-export const AddEmployee= (name,Lastname,email,adress,status,Gender,password,cinNum,BAnum,Tnumber,post,description) => {
+export const AddEmployee= (name,Lastname,email,adress,status,Gender,password,post,description,cinNum,BAnum,Tnumber,startDate,endDate,Rnumber,Nhour,type,skill,languge,role) => {
+  
     return async (dispatch,getState) =>{
         const token = getState().auth.token;
-    const    data={
+        console.log("Gender",Gender);
+    const data={
             "user":{
                    "name":name,
                    "prenom":Lastname,
                     "email":email,
                     "adresse":adress,
-                    "statu":status,
+                    "statu":status.value,
                     "genre":Gender,
                     "password":password
                   
@@ -54,22 +56,22 @@ export const AddEmployee= (name,Lastname,email,adress,status,Gender,password,cin
               },
              "contrat":{
              
-                  "debutdate":"2022-04-01",
-                    "findate" :"2022-04-06",
-                    "matricule":"23346",
-                    "nbheure":"24",
-                    "typeContart":"CDI"
+                  "debutdate":startDate,
+                    "findate" :endDate,
+                    "matricule":Rnumber,
+                    "nbheure":Nhour,
+                    "typeContart":type.value,
                    
              },
             
-              "competance_ids":[1,3,5,2] ,
-               "langue_ids":[1,2,3],
-               "role_id":[3],
+              "competance_ids":skill,
+               "langue_ids":languge,
+               "role_id":[role?.value],
         
                "posts":[{
              
-                   "title":"pddd",
-                   "description":"kkkkk"
+                   "title":post,
+                   "description":description
                    
                }],
               

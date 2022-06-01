@@ -20,7 +20,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilColorBorder, cilMagnifyingGlass, cilPlus, cilShortText, cilTrash } from '@coreui/icons'
 import Modal from '../Modal'
-import Tabs from './Tabs'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { AddEmployee, DeleteEmployee, getEmployee, getEmployeeInfo, SearchEmployee } from 'src/store/action/Employee'
 import DeleteModal from '../DeleteModal'
@@ -30,7 +30,7 @@ const Employee = () => {
   const [updatevisible, setUpdateVisible] = useState(false)
   const EmployeeList = useSelector((state) => state.emp.NewemployeeList)
   const [skill, setSkill] = useState([])
-  const [Gender, setGender] = useState()
+  const [Gender, setGender] = useState("homme")
   const [Education, setEducation] = useState([])
   const [languge, setLanguge] = useState([])
   const [Delete, setDelete] = useState(false)
@@ -52,8 +52,13 @@ const Employee = () => {
   const [Rnumber, setRnumber] = useState()
   const [password, setPassword] = useState()
   const [description, setDescription] = useState()
-  const [role, setRole] = useState()
+  const [role, setRole] = useState([])
   const [type, setType] = useState()
+  const [title, setTitle] = useState()
+  const [date, setDate] = useState()
+  const [source, setSource] = useState()
+
+   
   //update state
 
   const [updateSkill, setUpdateSkill] = useState([])
@@ -66,7 +71,7 @@ const Employee = () => {
   const [updateLastname, setUpdateLastname] = useState()
   const [updateEmail, setUpdateEmail] = useState()
   const [updateAdress, setUpdateAdress] = useState()
-  const [updatePost, setUpdatePost] = useState()
+  const [updatePost, setUpdatePost] = useState([])
   const [updateCinNum, setUpdateCinNum] = useState()
   const [updateBAnum, setUpdateBAnum] = useState()
   const [updateTnumber, setUpdateTnumber] = useState()
@@ -75,8 +80,12 @@ const Employee = () => {
   const [updateNhour, setUpdateNhour] = useState()
   const [updateRnumber, setUpdateRnumber] = useState()
   const [updatePassword, setUpdatePassword] = useState()
-  const [updateRole, setUpdateRole] = useState()
+  const [updateDescription, setUpdateDescription] = useState()
+  const [updateRole, setUpdateRole] = useState([])
   const [updateType, setUpdateType] = useState()
+  const [updateTitle, setUpdateTitle] = useState()
+  const [updateDate, setUpdateDate] = useState()
+  const [updateSource, setUpdateSource] = useState()
   //id
   const [idOfElementToBeUpdate, setIdOfElementToBeUpdate] = useState()
   const [idOfElementToBeDeleted, setIdOfElementToBeDeleted] = useState()
@@ -87,29 +96,41 @@ const Employee = () => {
   const onPressUpdateHandler = (id) => {
     setUpdateVisible(!updatevisible)
     setIdOfElementToBeUpdate(id)
-    let newEmploye = EmployeeList.filter((el) => {
+     let newEmploye = EmployeeList.filter((el) => {
       return id == el.id
     })
- 
-    setUpdateSkill()
+ console.log(newEmploye);
     setUpdateGender(newEmploye[0].genre)
-    setUpdateEducation([])
-    setUpdateLanguge([])
+    setUpdateEducation([]) 
     setUpdateCertificates([])
     setUpdateStatus(newEmploye[0].statu)
     setUpdateName(newEmploye[0].name)
     setUpdateLastname(newEmploye[0].prenom)
     setUpdateEmail(newEmploye[0].email)
-    setUpdateAdress(newEmploye[0].adresse)
-   /*  setUpdatePost({label:newEmploye[0]?.posts.id,value:newEmploye[0]?.posts.title})
-    setUpdateCinNum(newEmploye[0]?.user_info[0]?.numeroCIN)
-    setUpdateBAnum(newEmploye[0]?.user_info[0]?.numeroCarteBancaire)
-    setUpdateTnumber(newEmploye[0]?.user_info[0]?.numeroTelephone) */
-  /*   setUpdateStartDate(newEmploye[0].contrat[0].debutdate)
-    setUpdateEndDate(newEmploye[0].contrat[0].findate)
-    setUpdateNhour(newEmploye[0].contrat[0].nbheure)
-    setUpdateRnumber(newEmploye[0].contrat[0].matricule) */
-    setUpdatePassword(newEmploye[0].password) 
+    setUpdateAdress(newEmploye[0].adresse) 
+    setUpdatePost(newEmploye[0]?.posts[0]?.title)
+    setUpdateDescription(newEmploye[0]?.posts[0]?.description)
+    setUpdateCinNum(newEmploye[0]?.user_info?.numeroCIN)
+    setUpdateBAnum(newEmploye[0]?.user_info?.numeroCarteBancaire)
+    setUpdateTnumber(newEmploye[0]?.user_info?.numeroTelephone)  
+    setUpdateStartDate(newEmploye[0]?.contrat?.debutdate) 
+    setUpdateEndDate(newEmploye[0]?.contrat?.findate) 
+    setUpdateRnumber(newEmploye[0]?.contrat?.matricule) 
+    setUpdateNhour(newEmploye[0]?.contrat?.nbheure) 
+    setUpdateType({label:newEmploye[0]?.contrat?.typeContart,value:newEmploye[0]?.contrat?.typeContart})
+    setUpdateStatus({label:newEmploye[0]?.statu,value:newEmploye[0]?.statu})  
+    setUpdateRole({label:newEmploye[0]?.roles[0]?.name,value:newEmploye[0]?.roles[0]?.name})
+    const ins = newEmploye[0]?.competance.map(elem=>{
+     return {value:elem.id,label:elem.nomCompetence}
+     
+    }) 
+     setUpdateSkill(ins)
+     const lan = newEmploye[0]?.langues.map(elem=>{
+      return {value:elem.id,label:elem.nom}
+      
+     }) 
+      setUpdateLanguge(lan)
+      setUpdateTitle(newEmploye[0]?.cartification[0]?.titre)
   }
   const dispatch = useDispatch()
   useEffect(() => {
@@ -132,8 +153,16 @@ const Employee = () => {
       dispatch(SearchEmployee(name))
   }
   const addEmployeeHandler = () => {
+    const Languages = languge.map((elem) => {
+      return elem.value
+    })
+    const Skills = skill.map((elem) => {
+      return elem.value
+    })
+   
     dispatch(
-      AddEmployee(name, Lastname, email, adress, status, Gender, password, cinNum, BAnum, Tnumber),
+      AddEmployee(name,Lastname,email,adress,status,Gender,password,post,description,cinNum,BAnum,Tnumber,startDate,endDate,Rnumber,Nhour,type,Skills,Languages,role),
+     setVisible(false)
     )
   }
   return (
@@ -197,7 +226,7 @@ const Employee = () => {
           title={'UpDate Employee'}
           visible={updatevisible}
           setVisible={setUpdateVisible}
-          addHandler={() => updateEmployeeHandler(idOfElementToBeUpdate)}
+         
         >
           <EmployeeFrom
             Gender={updateGender}
@@ -242,7 +271,11 @@ const Employee = () => {
             setRole={setUpdateRole}
             type={updateType}
             setType={setUpdateType}
-            addHandler={() => updateEmployeeHandler()}
+            description={updateDescription}
+            setDescription={setUpdateDescription}
+            title={updateTitle}
+            setTitle={setUpdateTitle}
+            addHandler={() => updateEmployeeHandler(idOfElementToBeUpdate)}
           ></EmployeeFrom>
         </Modal>
         <CCol xs={12}>
