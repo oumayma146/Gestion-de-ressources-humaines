@@ -22,21 +22,31 @@ import { cilColorBorder, cilMagnifyingGlass, cilPlus, cilShortText, cilTrash } f
 import Modal from '../Modal'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { AddEmployee, DeleteEmployee, getEmployee, getEmployeeInfo, SearchEmployee } from 'src/store/action/Employee'
+import {
+  AddEmployee,
+  DeleteEmployee,
+  getEmployee,
+  getEmployeeInfo,
+  SearchEmployee,
+  UpdateEmployee,
+} from 'src/store/action/Employee'
 import DeleteModal from '../DeleteModal'
 import ModalEmployee from '../ModalEmployee'
 import EmployeeFrom from '../From/EmployeeFrom'
+
 const Employee = () => {
+  const [Education, setEducation] = useState([{ id: Math.random(), diplome: '' }])
   const [updatevisible, setUpdateVisible] = useState(false)
   const EmployeeList = useSelector((state) => state.emp.NewemployeeList)
   const [skill, setSkill] = useState([])
-  const [Gender, setGender] = useState("homme")
-  const [Education, setEducation] = useState([])
+  const [Gender, setGender] = useState('homme')
   const [languge, setLanguge] = useState([])
   const [Delete, setDelete] = useState(false)
   const [visible, setVisible] = useState(false)
   const [employee, setEmplyee] = useState(false)
-  const [Certificates, setCertificates] = useState([])
+  const [Certificates, setCertificates] = useState([
+    { id: Math.random(), titre: '', date: '', source: '' },
+  ])
   const [status, setStatus] = useState()
   const [name, setName] = useState()
   const [Lastname, setLastname] = useState()
@@ -54,18 +64,16 @@ const Employee = () => {
   const [description, setDescription] = useState()
   const [role, setRole] = useState([])
   const [type, setType] = useState()
-  const [title, setTitle] = useState()
-  const [date, setDate] = useState()
-  const [source, setSource] = useState()
 
-   
   //update state
 
   const [updateSkill, setUpdateSkill] = useState([])
   const [updateGender, setUpdateGender] = useState()
-  const [updateEducation, setUpdateEducation] = useState([])
+  const [updateEducation, setUpdateEducation] = useState([{ id: Math.random(), diplome: '' }])
   const [updatelanguge, setUpdateLanguge] = useState([])
-  const [updateCertificates, setUpdateCertificates] = useState([])
+  const [updateCertificates, setUpdateCertificates] = useState([
+    { id: Math.random(), titre: '', date: '', source: '' },
+  ])
   const [updateStatus, setUpdateStatus] = useState()
   const [updateName, setUpdateName] = useState()
   const [updateLastname, setUpdateLastname] = useState()
@@ -83,9 +91,8 @@ const Employee = () => {
   const [updateDescription, setUpdateDescription] = useState()
   const [updateRole, setUpdateRole] = useState([])
   const [updateType, setUpdateType] = useState()
-  const [updateTitle, setUpdateTitle] = useState()
-  const [updateDate, setUpdateDate] = useState()
-  const [updateSource, setUpdateSource] = useState()
+  const [updateEmploye, setUpdateEmploye] = useState()
+
   //id
   const [idOfElementToBeUpdate, setIdOfElementToBeUpdate] = useState()
   const [idOfElementToBeDeleted, setIdOfElementToBeDeleted] = useState()
@@ -96,41 +103,51 @@ const Employee = () => {
   const onPressUpdateHandler = (id) => {
     setUpdateVisible(!updatevisible)
     setIdOfElementToBeUpdate(id)
-     let newEmploye = EmployeeList.filter((el) => {
+    let newEmploye = EmployeeList.filter((el) => {
       return id == el.id
     })
- console.log(newEmploye);
+    console.log(newEmploye)
+
+    setUpdateEmploye(newEmploye[0])
     setUpdateGender(newEmploye[0].genre)
-    setUpdateEducation([]) 
     setUpdateCertificates([])
     setUpdateStatus(newEmploye[0].statu)
     setUpdateName(newEmploye[0].name)
     setUpdateLastname(newEmploye[0].prenom)
     setUpdateEmail(newEmploye[0].email)
-    setUpdateAdress(newEmploye[0].adresse) 
+    setUpdateAdress(newEmploye[0].adresse)
     setUpdatePost(newEmploye[0]?.posts[0]?.title)
     setUpdateDescription(newEmploye[0]?.posts[0]?.description)
     setUpdateCinNum(newEmploye[0]?.user_info?.numeroCIN)
     setUpdateBAnum(newEmploye[0]?.user_info?.numeroCarteBancaire)
-    setUpdateTnumber(newEmploye[0]?.user_info?.numeroTelephone)  
-    setUpdateStartDate(newEmploye[0]?.contrat?.debutdate) 
-    setUpdateEndDate(newEmploye[0]?.contrat?.findate) 
-    setUpdateRnumber(newEmploye[0]?.contrat?.matricule) 
-    setUpdateNhour(newEmploye[0]?.contrat?.nbheure) 
-    setUpdateType({label:newEmploye[0]?.contrat?.typeContart,value:newEmploye[0]?.contrat?.typeContart})
-    setUpdateStatus({label:newEmploye[0]?.statu,value:newEmploye[0]?.statu})  
-    setUpdateRole({label:newEmploye[0]?.roles[0]?.name,value:newEmploye[0]?.roles[0]?.name})
-    const ins = newEmploye[0]?.competance.map(elem=>{
-     return {value:elem.id,label:elem.nomCompetence}
-     
-    }) 
-     setUpdateSkill(ins)
-     const lan = newEmploye[0]?.langues.map(elem=>{
-      return {value:elem.id,label:elem.nom}
-      
-     }) 
-      setUpdateLanguge(lan)
-      setUpdateTitle(newEmploye[0]?.cartification[0]?.titre)
+    setUpdateTnumber(newEmploye[0]?.user_info?.numeroTelephone)
+    setUpdateStartDate(newEmploye[0]?.contrat?.debutdate)
+    setUpdateEndDate(newEmploye[0]?.contrat?.findate)
+    setUpdateRnumber(newEmploye[0]?.contrat?.matricule)
+    setUpdateNhour(newEmploye[0]?.contrat?.nbheure)
+    setUpdateType({
+      label: newEmploye[0]?.contrat?.typeContart,
+      value: newEmploye[0]?.contrat?.typeContart,
+    })
+    setUpdateStatus({ label: newEmploye[0]?.statu, value: newEmploye[0]?.statu })
+    setUpdateRole({ label: newEmploye[0]?.roles[0]?.name, value: newEmploye[0]?.roles[0]?.name })
+    const ins = newEmploye[0]?.competance.map((elem) => {
+      return { value: elem.id, label: elem.nomCompetence }
+    })
+    setUpdateSkill(ins)
+    const lan = newEmploye[0]?.langues.map((elem) => {
+      return { value: elem.id, label: elem.nom }
+    })
+    setUpdateLanguge(lan)
+    const educ = newEmploye[0]?.education?.map((elem) => {
+      return { diplome: elem.diplome }
+    })
+    setUpdateEducation(educ)
+
+    const cert = newEmploye[0]?.cartification?.map((elem) => {
+      return { titre: elem.titre, date: elem.date, source: elem.source }
+    })
+    setUpdateCertificates(cert)
   }
   const dispatch = useDispatch()
   useEffect(() => {
@@ -146,11 +163,48 @@ const Employee = () => {
     dispatch(getEmployeeInfo(id))
     setEmplyee(!employee)
   }
-  const updateEmployeeHandler = () => {
 
+  const updateEmployeeHandler = (id) => {
+    const UplistOflanguge = updatelanguge.map((elem) => {
+      return elem.value
+    })
+    const UplistOfSkill = updateSkill.map((elem) => {
+      return elem.value
+    })
+    console.log('comp', updateEmploye)
+    dispatch(
+      UpdateEmployee(
+        updateName,
+        updateLastname,
+        updateEmail,
+        updateAdress,
+        updateStatus,
+        updateGender,
+        updatePost,
+        updateDescription,
+        updateCinNum,
+        updateBAnum,
+        updateTnumber,
+        updateStartDate,
+        updateEndDate,
+        updateRnumber,
+        updateNhour,
+        updateType,
+        UplistOfSkill,
+        UplistOflanguge,
+        updateRole,
+        updateEducation,
+        updateCertificates,
+        id,
+        updateEmploye,
+      ),
+    ).then(() => {
+      dispatch(getEmployee())
+      setUpdateVisible(false)
+    })
   }
   const SearchEmployeeHandler = (name) => {
-      dispatch(SearchEmployee(name))
+    dispatch(SearchEmployee(name))
   }
   const addEmployeeHandler = () => {
     const Languages = languge.map((elem) => {
@@ -159,10 +213,55 @@ const Employee = () => {
     const Skills = skill.map((elem) => {
       return elem.value
     })
-   
     dispatch(
-      AddEmployee(name,Lastname,email,adress,status,Gender,password,post,description,cinNum,BAnum,Tnumber,startDate,endDate,Rnumber,Nhour,type,Skills,Languages,role),
-     setVisible(false)
+      AddEmployee(
+        name,
+        Lastname,
+        email,
+        adress,
+        status,
+        Gender,
+        password,
+        post,
+        description,
+        cinNum,
+        BAnum,
+        Tnumber,
+        startDate,
+        endDate,
+        Rnumber,
+        Nhour,
+        type,
+        Skills,
+        Languages,
+        role,
+        Education,
+        Certificates,
+      ),
+      setVisible(false),
+      dispatch(getEmployee()),
+      setGender(''),
+      setBAnum(''),
+      setEducation([{ id: Math.random(), diplome: '' }]),
+      setName(''),
+      setLastname(''),
+      setPost([]),
+      setAdress(''),
+      setEmail(''),
+      setCinNum(''),
+      setTnumber(''),
+      setStatus(''),
+      setSkill([]),
+      setLanguge([]),
+      setCertificates([{ id: Math.random(), titre: '', date: '', source: '' }]),
+      setStartDate(''),
+      setEndDate(''),
+      setNhour(''),
+      setRnumber(''),
+      setPassword(''),
+      setRole([]),
+      setType(''),
+      setDescription(''),
     )
   }
   return (
@@ -222,12 +321,7 @@ const Employee = () => {
           setDelete={setDelete}
           deleteHandler={() => deleteEmployeeHandler(idOfElementToBeDeleted)}
         />
-        <Modal
-          title={'UpDate Employee'}
-          visible={updatevisible}
-          setVisible={setUpdateVisible}
-         
-        >
+        <Modal title={'UpDate Employee'} visible={updatevisible} setVisible={setUpdateVisible}>
           <EmployeeFrom
             Gender={updateGender}
             setGender={setUpdateGender}
@@ -273,8 +367,6 @@ const Employee = () => {
             setType={setUpdateType}
             description={updateDescription}
             setDescription={setUpdateDescription}
-            title={updateTitle}
-            setTitle={setUpdateTitle}
             addHandler={() => updateEmployeeHandler(idOfElementToBeUpdate)}
           ></EmployeeFrom>
         </Modal>
@@ -285,11 +377,13 @@ const Employee = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="search"
+                <CFormInput
+                  type="search"
                   placeholder="Search for..."
                   value={name}
-                  onChange={(e) => setName(e.target.value)} />
-                <CButton color="primary" size="sm" onClick={(e) =>SearchEmployeeHandler(name)}>
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <CButton color="primary" size="sm" onClick={(e) => SearchEmployeeHandler(name)}>
                   Search
                 </CButton>
                 <div style={{ width: '400px' }}> </div>

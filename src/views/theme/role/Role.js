@@ -21,13 +21,13 @@ import {
 
 import CIcon from '@coreui/icons-react'
 import { cilColorBorder, cilMagnifyingGlass, cilPlus, cilTrash } from '@coreui/icons'
-import FromEmployee from '../From/EmployeeFrom'
+
 import RoleFrom from '../From/RoleFrom'
 import Modal from '../Modal'
 import DeleteModal from '../DeleteModal'
 import ModalPermission from '../ModalPermission'
 import { useDispatch, useSelector } from 'react-redux'
-import { AddRole, DeleteRole, getRole, SearchRole } from 'src/store/action/role'
+import { AddRole, DeleteRole, getRole, SearchRole, UpdateRole } from 'src/store/action/role'
 import { getRolePermission } from 'src/store/action/RolePermission'
 
 const Role = () => {
@@ -65,8 +65,14 @@ const Role = () => {
     let newRole = RoleList.filter((el) => {
       return id == el.id
     })
+    console.log(newRole[0]);
     setUpdateTitle(newRole[0].name)
-    setUpdatePermission(newRole[0].permission)
+    const ins = newRole[0]?.permission?.map(elem=>{
+      return elem.id
+      
+     }) 
+      
+    setUpdatePermission(ins)
   }
 
   const deleteRoleHandler = (id) => {
@@ -85,14 +91,17 @@ const Role = () => {
   const SearchRoleHandler = (title) => {
     dispatch(SearchRole(title))
   }
-  const updateRoleHandler = () => {
-
+  const updateRoleHandler = (id) => {
+    dispatch(UpdateRole(id ,updatetitle,updatepermission)).then(() => {
+      dispatch(getRole()),
+      setUpdateVisible(false)
+    })
   }
   return (
     <>
       <CRow>
         <Modal
-          title={'AUpdate Role'}
+          title={'Update Role'}
           visible={updatevisible}
           setVisible={setUpdateVisible}
          

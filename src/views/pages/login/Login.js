@@ -21,13 +21,17 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import hello from './../../../assets/images/12.png'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { auth } from 'src/store/action/auth'
+import { auth, ForgetPassword } from 'src/store/action/auth'
+import ModalForgotPassword from 'src/views/theme/ModalForgetPassword'
 
 function Login() {
   const dispatch = useDispatch()
   const [visible, setVisible] = useState(false)
   const [userEmail, setUserEmail] = useState()
   const [password, setPassword] = useState()
+  const [forget_password, setForget_Password] = useState('')
+  const [visbleForget, setVisbleForget] = useState(false)
+
   const navigate = useNavigate()
   const token = useSelector((state) => state.auth.token)
   const Alertt = useSelector((state) => state.auth.alert)
@@ -44,6 +48,11 @@ function Login() {
   }, [token])
   async function login() {
     dispatch(auth(userEmail, password))
+  }
+  async function Forget_Password() {
+    dispatch(ForgetPassword(forget_password))
+    setForget_Password('')
+    setVisbleForget(false)
   }
   const onSubmit = (e) => {
     e.preventDefault()
@@ -99,11 +108,22 @@ function Login() {
                       >
                         verify your email and password
                       </CAlert>
-                      {/*   <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
+                      <CCol xs={6} className="text-right">
+                        <CButton
+                          color="link"
+                          className="px-0"
+                          onClick={() => setVisbleForget(!visible)}
+                        >
                           Forgot password?
                         </CButton>
-                      </CCol> */}
+                        <ModalForgotPassword
+                          visible={visbleForget}
+                          setVisible={setVisbleForget}
+                          email={forget_password}
+                          setEmail={setForget_Password}
+                          forgetHandler={() => Forget_Password()}
+                        ></ModalForgotPassword>
+                      </CCol>
                     </CRow>
                   </CForm>
                 </CCardBody>

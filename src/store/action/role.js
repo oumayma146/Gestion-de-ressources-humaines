@@ -42,11 +42,14 @@ export const AddRole = (title,list_permissions) => {
  export const UpdateRole = (id ,title,list_permissions) => {
     return async (dispatch,getState) =>{
         const token = getState().auth.token;
+        console.log(title);
+        console.log(list_permissions);
      /*    let permissions = [];
         let list_permissions = JSON.stringify(permissions); */
         let formData  = new FormData();
         formData.append("name", title);
-        formData.append("permission",list_permissions);
+        formData.append("permission",JSON.stringify(list_permissions));
+        formData.append('_method', 'put')
         const response = await axios({
             method: "POST",
             url: `http://127.0.0.1:8000/api/role/update/${id}`,

@@ -17,7 +17,7 @@ import Select from 'react-select'
 import { AddEmployee } from 'src/store/action/Employee'
 import { getLanguge, getSkill } from 'src/store/action/configuration'
 import CIcon from '@coreui/icons-react'
-import { cilPlus } from '@coreui/icons'
+import { cilCheckCircle, cilPlus } from '@coreui/icons'
 
 export default function EmployeeFrom({
   setRole,
@@ -45,7 +45,7 @@ export default function EmployeeFrom({
   setTnumber,
   Gender,
   description,
-  setDescription, 
+  setDescription,
   Education,
   setEducation,
   skill,
@@ -72,24 +72,23 @@ export default function EmployeeFrom({
     dispatch(getLanguge())
     dispatch(getSkill())
   }, [])
-const Languges = useSelector((state) => state.conf.langugeList)
-const Skill = useSelector((state) => state.conf.skillList)
-const nameLanguge = Languges.map((elem) => {
-  return { value: elem.id, label: elem.nom }
-})
-const nameSkills = Skill.map((el) => {
-  return { value: el.id, label: el.nomCompetence }
-})
-const typeList = [
-  { label: 'CDI', value: 'CDI' },
-  { label: 'CDD', value: 'CDD' },
-  { label: 'CVP', value: 'CVP' },
-]
+  const Languges = useSelector((state) => state.conf.langugeList)
+  const Skill = useSelector((state) => state.conf.skillList)
+  const nameLanguge = Languges.map((elem) => {
+    return { value: elem.id, label: elem.nom }
+  })
+  const nameSkills = Skill.map((el) => {
+    return { value: el.id, label: el.nomCompetence }
+  })
+  const typeList = [
+    { label: 'CDI', value: 'CDI' },
+    { label: 'CDD', value: 'CDD' },
+    { label: 'CVP', value: 'CVP' },
+  ]
   const onSubmit = (e) => {
     e.preventDefault()
   }
- 
-  
+
   const addDescriptionHandler = (e) => {
     setDescription(e.target.value)
   }
@@ -129,7 +128,6 @@ const typeList = [
   }
   const addGanderHandler = (e) => {
     setGender(e.target.value)
-   
   }
   const dispatch = useDispatch()
   useEffect(() => {
@@ -147,27 +145,45 @@ const typeList = [
   const addRgNumberHandler = (e) => {
     setRnumber(e.target.value)
   }
-  useEffect(() => {
-    let edu = []
-    edu.push({ id: 1, text: educ })
-    seteduc('')
-    setEducation(edu)
-    let cert = []
-    cert.push({ id: 1, title: '', date: '', source: '' })
-    setCertificates(cert)
-  }, [])
+  
 
-  const addEducationhandler = () => {
-    let edu = [...Education]
-    edu.push({ id: Math.random(), text: educ })
-    setEducation(edu)
+  const handleChangeInput = (id, event) => {
+    const newEducation = Education.map((i) => {
+      if (id === i.id) {
+        //i[event.target.diplome] = event.target.value;
+        i.diplome = event.target.value
+        console.log('i', i)
+      }
+      return i
+    })
+
+    setEducation(newEducation)
+  }
+  const handleChangeInputCert = (id, event,config) => {
+    const newCertif = Certificates.map((i) => {
+      if (id === i.id) {
+        if (config==="TITLE"){
+          i.titre = event.target.value
+        }else if(config ==="DATE"){
+          i.date = event.target.value
+        }else if (config === "SOURCE"){
+          i.source = event.target.value
+        }
+        console.log('i', i)
+      }
+      return i
+    })
+
+    setCertificates(newCertif)
   }
 
-  const addCertifhandler = () => {
-    let cert = [...Certificates]
-    cert.push({ id: Math.random(), title: '', date: '', source: '' })
-    setCertificates(cert)
+  const handleAddFields = () => {
+    setEducation([...Education, { id: Math.random(), diplome: '' }])
   }
+  const handleAddCertif = () => {
+    setCertificates([...Certificates, { id: Math.random(), titre: '', date: '', source: '' }])
+  }
+
   const Name = useSelector((state) => state.role.roleList)
   const roleList = Name.map((elem) => {
     return { value: elem.id, label: elem.name }
@@ -219,11 +235,11 @@ const typeList = [
       </CCol>
       <CCol md={3}>
         <CFormLabel htmlFor="inputState">status</CFormLabel>
-        <Select defaultValue={status} onChange={setStatus} options={statusList} required/>
+        <Select defaultValue={status} onChange={setStatus} options={statusList} required />
       </CCol>
       <CCol md={3}>
         <CFormLabel htmlFor="inputPost">Post</CFormLabel>
-        <CFormInput id="inputPost" value={post} onInput={(e) => addPostHandler(e)} required/>
+        <CFormInput id="inputPost" value={post} onInput={(e) => addPostHandler(e)} required />
       </CCol>
       <CCol md={2}>
         <CFormLabel htmlFor="inputGender">Gender</CFormLabel>
@@ -287,7 +303,6 @@ const typeList = [
           <MultiSelect options={nameSkills} value={skill} onChange={setSkill} labelledBy="Select" />
         </div>
       </CCol>
-
       <CCol xs={6}>
         <CFormLabel htmlFor="inputEducation">Education</CFormLabel>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -295,23 +310,22 @@ const typeList = [
             {Education.map((elem) => {
               return (
                 <CFormInput
-                  type="text"
-                  id="inputleducation"
                   key={elem.id}
-                  value={educ}
-                  onInput={(e) => seteduc(e.target.value)}
+                  type="text"
+                 
+                  value={elem.diplome}
+                  onChange={(event) => handleChangeInput(elem.id, event)}
                 />
               )
             })}
           </div>
-          <div style={{ flex: 0.2 }} onClick={addEducationhandler}>
+          <div style={{ flex: 0.2 }} onClick={handleAddFields}>
             <CButton shape="rounded-pill">
               <CIcon icon={cilPlus}></CIcon>
             </CButton>
           </div>
         </div>
       </CCol>
-
       <CCol md={6}>
         <CFormLabel htmlFor="inputCertificates">Certificates</CFormLabel>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -321,22 +335,35 @@ const typeList = [
                 <>
                   <CFormLabel>Title</CFormLabel>
                   <CCol sm={10}>
-                    <CFormInput  required/>
+                    <CFormInput
+                      type="text"
+                      value={el.titre}
+                      onChange={(event) => handleChangeInputCert(el.id, event,"TITLE")}
+                      required
+                    />
                   </CCol>
                   <CFormLabel>Date</CFormLabel>
-                  <CCol sm={10} >
-                    <CFormInput type="date" />
+                  <CCol sm={10}>
+                    <CFormInput
+                      type="date"
+                      value={el.date}
+                      onChange={(event) => handleChangeInputCert(el.id, event,"DATE")}
+                    />
                   </CCol>
                   <CFormLabel>Source</CFormLabel>
                   <CCol sm={10} required>
-                    <CFormInput type="text" />
+                    <CFormInput
+                      type="text"
+                      value={el.source}
+                      onChange={(event) => handleChangeInputCert(el.id, event,"SOURCE")}
+                    />
                   </CCol>
                 </>
               )
             })}
           </div>
           <div style={{ flex: 0.2 }}>
-            <CButton shape="rounded-pill" onClick={addCertifhandler}>
+            <CButton shape="rounded-pill" onClick={handleAddCertif}>
               <CIcon icon={cilPlus}></CIcon>
             </CButton>
           </div>
@@ -349,15 +376,30 @@ const typeList = [
           <div style={{ flex: 0.8, marginRight: '20px' }}>
             <CFormLabel>Start Date</CFormLabel>
             <CCol sm={10}>
-              <CFormInput type="date" value={startDate} onInput={(e) => addStartDateHandler(e)} required />
+              <CFormInput
+                type="date"
+                value={startDate}
+                onInput={(e) => addStartDateHandler(e)}
+                required
+              />
             </CCol>
             <CFormLabel>End Date</CFormLabel>
             <CCol sm={10}>
-              <CFormInput type="date" value={endDate} onInput={(e) => addEndDateHandler(e)} required />
+              <CFormInput
+                type="date"
+                value={endDate}
+                onInput={(e) => addEndDateHandler(e)}
+                required
+              />
             </CCol>
             <CFormLabel>Registration Number</CFormLabel>
             <CCol sm={10}>
-              <CFormInput type="text" value={Rnumber} onInput={(e) => addRgNumberHandler(e)} required />
+              <CFormInput
+                type="text"
+                value={Rnumber}
+                onInput={(e) => addRgNumberHandler(e)}
+                required
+              />
             </CCol>
             <CFormLabel>Number Of Hours</CFormLabel>
             <CCol sm={10}>
@@ -365,7 +407,7 @@ const typeList = [
             </CCol>
             <CFormLabel>Type of Contract</CFormLabel>
             <CCol sm={10}>
-              <Select defaultValue={type} onChange={setType} options={typeList} required/>
+              <Select defaultValue={type} onChange={setType} options={typeList} required />
             </CCol>
           </div>
         </div>
