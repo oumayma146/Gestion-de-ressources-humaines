@@ -1,9 +1,10 @@
 /* eslint-disable */
-import { DELETEROLE, NAME, ROLE, SEARCHROLE} from "../action/role";
+import { DELETEROLE, NAME, ROLE, ROLENAME, SEARCHROLE} from "../action/role";
 const initialState = {
     roleList:[],
     nameList:[],
     NewroleList:[],
+    NameList:[],
  
 }
 const roleReducer = (state = initialState, action) =>{
@@ -23,6 +24,13 @@ const roleReducer = (state = initialState, action) =>{
                 ...state,
                 roleList: action.payload.roleList,
                 NewroleList: action.payload.roleList,
+
+            };
+            case ROLENAME:
+            return {
+                ...state,
+                NameList: action.payload.NameList,
+                NewroleList: action.payload.NameList,
 
             };
         case NAME:

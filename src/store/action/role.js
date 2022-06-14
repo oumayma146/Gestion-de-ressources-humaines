@@ -5,6 +5,7 @@ export const DELETEROLE ='DELETEROLE';
 export const ADDROLE ='ADDROLE';
 export const NAME ='NAME';
 export const SEARCHROLE ='SEARCHROLE';
+export const ROLENAME ='ROLENAME';
 export const getRole = () => {
     return async (dispatch,getState) =>{
         const token = getState().auth.token;
@@ -77,5 +78,13 @@ export const SearchRole=(name) => {
     
      dispatch({type:SEARCHROLE,payload:{name,}});
     
+    };
+}
+export const getRoleName = () => {
+    return async (dispatch,getState) =>{
+        const token = getState().auth.token;
+        const response = await axios.get('http://127.0.0.1:8000/api/role/name',{ headers: {"Authorization" :`Bearer ${token}` }} 
+        )
+        dispatch({type:ROLENAME,payload:{NameList:response.data,}});
     };
 }

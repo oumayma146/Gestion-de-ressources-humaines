@@ -119,89 +119,111 @@ export const SearchEmployee = (name) => {
 }
 
 export const UpdateEmployee = (
-    name,
-    Lastname,
-    email,
-    adress,
-    status,
-    Gender,
-    post,
-    description,
-    cinNum,
-    BAnum,
-    Tnumber,
-    startDate,
-    endDate,
-    Rnumber,
-    Nhour,
-    type,
-    skill,
-    languge,
-    role,
-    Education,
-    Certificates,
-    id,
-    Employe
-  ) => {
+  name,
+  Lastname,
+  email,
+  adress,
+  status,
+  Gender,
+  post,
+  description,
+  cinNum,
+  BAnum,
+  Tnumber,
+  startDate,
+  endDate,
+  Rnumber,
+  Nhour,
+  type,
+  skill,
+  languge,
+  role,
+  Education,
+  Certificates,
+  id,
+  Employe,
+) => {
   
+  return async (dispatch, getState) => {
+    const token = getState().auth.token
 
-    return async (dispatch, getState) => {
-      const token = getState().auth.token
-  
-   console.log(Education);
-      const data = {
-        user: {
-          name: name,
-          prenom: Lastname,
-          email: email,
-          adresse: adress,
-          statu: status.value,
-          genre: Gender,
-         
-        },
-        user_info: {
-          id:Employe?.user_info?.id ,
-          numeroCIN: cinNum,
-          numeroCarteBancaire: BAnum,
-          numeroTelephone: Tnumber,
-        },
-        contrat: {
-         id:Employe?.contrat?.id,
-          debutdate: startDate,
-          findate: endDate,
-          matricule: Rnumber,
-          nbheure: Nhour,
-          typeContart: type.value,
-        },
-  
-        competance_ids: skill,
-        langue_ids: languge,
-        role_id: [role?.value],
-  
-        posts: [
-          {
-            id:Employe.posts[0]?.id,
-            title: post,
-            description: description,
-          },
-        ],
-  
-        cartification: [{
-          id:Employe.cartification?.id,
-          Certificates }
-         ] ,
-       
+    const testArrCertif = Employe?.cartification?.map((elem) => {
+      return  elem.id 
+    })
+ 
 
-        education: Education,
-      }
-    
-      const response = await axios({
-        method: 'PUT',
-        url: `http://127.0.0.1:8000/api/users/update/${id}`,
-        data: data,
-        headers: { Authorization: `Bearer ${token}` },
-        'Content-Type': 'multipart/form-data',
-      })
-    
+   let test =[];
+   for(let i=0;i<Certificates.length ; i++){
+    if(!testArrCertif.includes(Certificates[i].id)){
+      test.push(Certificates[i]);
     }
+   }
+    const filtredCertif = test.map((el)=>{
+    return {titre: el.titre, date: el.date, source: el.source } })
+
+    const finalArry = Certificates.concat(filtredCertif);
+
+    const testArrEduc = Employe?.education?.map((elem) => {
+      return  elem.id 
+    })
+   
+   let testEduc =[];
+   for(let i=0;i<Education.length ; i++){
+    if(!testArrEduc.includes(Education[i].id)){
+      testEduc.push(Education[i]);
+    }
+   }
+    const filtredEduc = testEduc.map((el)=>{
+    return {diplome: el.diplome  } })
+
+    const finalArryEduc = Education.concat(filtredEduc);
+    const data = {
+      user: {
+        name: name,
+        prenom: Lastname,
+        email: email,
+        adresse: adress,
+        statu: status.value,
+        genre: Gender,
+      },
+      user_info: {
+        id: Employe?.user_info?.id,
+        numeroCIN: cinNum,
+        numeroCarteBancaire: BAnum,
+        numeroTelephone: Tnumber,
+      },
+      contrat: {
+        id: Employe?.contrat?.id,
+        debutdate: startDate,
+        findate: endDate,
+        matricule: Rnumber,
+        nbheure: Nhour,
+        typeContart: type.value,
+      },
+
+      competance_ids: skill,
+      langue_ids: languge,
+      role_id: [role?.value],
+
+      posts: [
+        {
+          id: Employe.posts[0]?.id,
+          title: post,
+          description: description,
+        },
+      ],
+
+      cartification: finalArry,
+
+      education: finalArryEduc,
+    }
+
+    const response = await axios({
+      method: 'PUT',
+      url: `http://127.0.0.1:8000/api/users/update/${id}`,
+      data: data,
+      headers: { Authorization: `Bearer ${token}` },
+      'Content-Type': 'multipart/form-data',
+    })
   }
+}

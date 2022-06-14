@@ -12,7 +12,7 @@ import {
 import { MultiSelect } from 'react-multi-select-component'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRole } from 'src/store/action/role'
+import { getRole, getRoleName } from 'src/store/action/role'
 import Select from 'react-select'
 import { AddEmployee } from 'src/store/action/Employee'
 import { getLanguge, getSkill } from 'src/store/action/configuration'
@@ -131,7 +131,7 @@ export default function EmployeeFrom({
   }
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getRole())
+    dispatch(getRoleName())
   }, [])
   const addStartDateHandler = (e) => {
     setStartDate(e.target.value)
@@ -150,9 +150,8 @@ export default function EmployeeFrom({
   const handleChangeInput = (id, event) => {
     const newEducation = Education.map((i) => {
       if (id === i.id) {
-        //i[event.target.diplome] = event.target.value;
         i.diplome = event.target.value
-        console.log('i', i)
+      
       }
       return i
     })
@@ -169,7 +168,7 @@ export default function EmployeeFrom({
         }else if (config === "SOURCE"){
           i.source = event.target.value
         }
-        console.log('i', i)
+    
       }
       return i
     })
@@ -184,7 +183,7 @@ export default function EmployeeFrom({
     setCertificates([...Certificates, { id: Math.random(), titre: '', date: '', source: '' }])
   }
 
-  const Name = useSelector((state) => state.role.roleList)
+  const Name = useSelector((state) => state.role.NameList)
   const roleList = Name.map((elem) => {
     return { value: elem.id, label: elem.name }
   })

@@ -130,7 +130,7 @@ const Employee = () => {
       value: newEmploye[0]?.contrat?.typeContart,
     })
     setUpdateStatus({ label: newEmploye[0]?.statu, value: newEmploye[0]?.statu })
-    setUpdateRole({ label: newEmploye[0]?.roles[0]?.name, value: newEmploye[0]?.roles[0]?.name })
+    setUpdateRole({ label: newEmploye[0]?.roles[0]?.name, value: newEmploye[0]?.roles[0]?.id })
     const ins = newEmploye[0]?.competance.map((elem) => {
       return { value: elem.id, label: elem.nomCompetence }
     })
@@ -140,12 +140,12 @@ const Employee = () => {
     })
     setUpdateLanguge(lan)
     const educ = newEmploye[0]?.education?.map((elem) => {
-      return { diplome: elem.diplome }
+      return { id:elem.id ,diplome: elem.diplome }
     })
     setUpdateEducation(educ)
 
     const cert = newEmploye[0]?.cartification?.map((elem) => {
-      return { titre: elem.titre, date: elem.date, source: elem.source }
+      return { id:elem.id ,titre: elem.titre, date: elem.date, source: elem.source }
     })
     setUpdateCertificates(cert)
   }

@@ -67,8 +67,9 @@ const Role = () => {
     })
     console.log(newRole[0]);
     setUpdateTitle(newRole[0].name)
+    
     const ins = newRole[0]?.permission?.map(elem=>{
-      return elem.id
+      return { id:elem.id}
       
      }) 
       
