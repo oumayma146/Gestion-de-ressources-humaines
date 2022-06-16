@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import '../../../scss/_custom.scss'
-import Modale from '../From/RoleFrom'
+import Modale from '../From/UpdateRoleFrom'
 import {
   CButton,
   CCard,
@@ -35,6 +35,7 @@ const Salary = () => {
   const deleteSalaryHandler = (id) => {
     dispatch(DeleteSalary(id))
     setDelete(false)
+    dispatch(getSalary())
   }
   const SalaryList = useSelector((state) => state.salary.NewSalaryList)
   const [Delete, setDelete] = useState(false)

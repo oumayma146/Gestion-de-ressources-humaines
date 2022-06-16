@@ -16,7 +16,7 @@ export const getRole = () => {
 }
 export const DeleteRole = (id) => {
     return async (dispatch,getState) =>{
-        console.log('inside action',id);
+   
         const token = getState().auth.token;
         const response = await axios.delete(`http://127.0.0.1:8000/api/role/${id}`,{ headers: {"Authorization" :`Bearer ${token}`, }} 
         )
@@ -36,20 +36,26 @@ export const AddRole = (title,list_permissions) => {
              headers: {"Authorization" :`Bearer ${token}`} ,
              "Content-Type": "multipart/form-data" 
             })
-            console.log(response.data);
+            console.log(list_permissions);
+            console.log(JSON.stringify(list_permissions));
     };
 
 }
  export const UpdateRole = (id ,title,list_permissions) => {
+  
     return async (dispatch,getState) =>{
         const token = getState().auth.token;
-        console.log(title);
-        console.log(list_permissions);
-     /*    let permissions = [];
-        let list_permissions = JSON.stringify(permissions); */
+   
+       let ArryRole =[] ;
+        for(let i=0;i<list_permissions.length ; i++){
+           ArryRole.push(""+list_permissions[i])
+       
+           } 
+           console.log("simple",ArryRole);
+           console.log(JSON.stringify(ArryRole));
         let formData  = new FormData();
         formData.append("name", title);
-        formData.append("permission",JSON.stringify(list_permissions));
+        formData.append("permission",JSON.stringify(ArryRole));
         formData.append('_method', 'put')
         const response = await axios({
             method: "POST",

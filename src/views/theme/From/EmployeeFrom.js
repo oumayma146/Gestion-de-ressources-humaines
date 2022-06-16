@@ -188,9 +188,9 @@ export default function EmployeeFrom({
     return { value: elem.id, label: elem.name }
   })
   const statusList = [
-    { label: 'single', value: 'single' },
-    { label: 'married', value: 'married' },
-    { label: 'divorced', value: 'divorced' },
+    { label: 'Célibataire', value: 'Célibataire' },
+    { label: 'marié(e)', value: 'marié(e)' },
+    { label: 'divorcé(e)', value: 'divorcé(e)' },
   ]
 
   return (

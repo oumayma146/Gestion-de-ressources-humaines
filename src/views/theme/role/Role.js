@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import '../../../scss/_custom.scss'
-import Modale from '../From/RoleFrom'
+import Modale from '../From/UpdateRoleFrom'
 import {
   CButton,
   CCard,
@@ -22,13 +22,15 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilColorBorder, cilMagnifyingGlass, cilPlus, cilTrash } from '@coreui/icons'
 
-import RoleFrom from '../From/RoleFrom'
+import RoleFrom from '../From/UpdateRoleFrom'
 import Modal from '../Modal'
 import DeleteModal from '../DeleteModal'
 import ModalPermission from '../ModalPermission'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddRole, DeleteRole, getRole, SearchRole, UpdateRole } from 'src/store/action/role'
 import { getRolePermission } from 'src/store/action/RolePermission'
+import AddRoleFrom from '../From/AddRoleFrom'
+import UpdateRoleFrom from '../From/UpdateRoleFrom'
 
 const Role = () => {
   const dispatch = useDispatch()
@@ -65,14 +67,12 @@ const Role = () => {
     let newRole = RoleList.filter((el) => {
       return id == el.id
     })
-    console.log(newRole[0]);
     setUpdateTitle(newRole[0].name)
     
     const ins = newRole[0]?.permission?.map(elem=>{
-      return { id:elem.id}
-      
+      return   elem.id;
      }) 
-      
+
     setUpdatePermission(ins)
   }
 
@@ -107,11 +107,12 @@ const Role = () => {
           setVisible={setUpdateVisible}
          
         >
-          <RoleFrom
+          <UpdateRoleFrom
             setTitle={setUpdateTitle}
             setPermission={setUpdatePermission}
             permission={updatepermission}
             title={updatetitle}
+            
             addHandler={() => updateRoleHandler(idOfElementToBeUpdate)}
           />
         </Modal>
@@ -147,7 +148,7 @@ const Role = () => {
                   setVisible={setVisible}
                  
                 >
-                  <RoleFrom
+                  <AddRoleFrom
                     setTitle={setTitle}
                     setPermission={setPermission}
                     permission={permission}

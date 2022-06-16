@@ -31,9 +31,10 @@ function  AppHeaderDropdown  ()  {
         <CAvatar src={avatar8} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">  
-        <CDropdownDivider />
         <CDropdownItem >
+        <div className="d-grid gap-2 col-6 mx-auto">
         <CButton  size="sm" color="primary" onClick={logout} role="button"  >logout</CButton>
+     </div>
         </CDropdownItem> 
       </CDropdownMenu>
     </CDropdown>

@@ -171,7 +171,7 @@ const Employee = () => {
     const UplistOfSkill = updateSkill.map((elem) => {
       return elem.value
     })
-    console.log('comp', updateEmploye)
+  
     dispatch(
       UpdateEmployee(
         updateName,

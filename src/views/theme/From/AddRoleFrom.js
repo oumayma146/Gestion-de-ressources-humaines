@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPermission } from 'src/store/action/permission'
 
 
-export default function RoleFrom({setTitle,setPermission,permission,title,addHandler}) {
+export default function AddRoleFrom({setTitle,setPermission,permission,title,addHandler}) {
   const dispatch =useDispatch();
   useEffect(() => {
     dispatch(getPermission());
@@ -24,7 +24,10 @@ export default function RoleFrom({setTitle,setPermission,permission,title,addHan
     setTitle(e.target.value)
   }
 
+
   const Permission = useSelector(state => state.permissions.permissions);
+
+
 
   return (
     <CForm className="row g-3" onSubmit={onSubmit}>
@@ -35,11 +38,12 @@ export default function RoleFrom({setTitle,setPermission,permission,title,addHan
     </CCol>
     
     <CFormLabel htmlFor="inputAddress">Permission</CFormLabel>
+    
     {Permission.map((elem)=>{
       return(
+    
       <CCol xs={2}> 
-      <CFormCheck  onChange={checkValue} value={elem.id} id={elem.id} label={elem.name} 
-     />
+      <CFormCheck  onChange={checkValue} value={elem.id} id={elem.id} label={elem.name}  /> 
     </CCol>
       )
     })}
