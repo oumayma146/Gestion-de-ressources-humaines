@@ -36,8 +36,7 @@ export const AddRole = (title,list_permissions) => {
              headers: {"Authorization" :`Bearer ${token}`} ,
              "Content-Type": "multipart/form-data" 
             })
-            console.log(list_permissions);
-            console.log(JSON.stringify(list_permissions));
+           
     };
 
 }
@@ -51,8 +50,7 @@ export const AddRole = (title,list_permissions) => {
            ArryRole.push(""+list_permissions[i])
        
            } 
-           console.log("simple",ArryRole);
-           console.log(JSON.stringify(ArryRole));
+          
         let formData  = new FormData();
         formData.append("name", title);
         formData.append("permission",JSON.stringify(ArryRole));
@@ -64,7 +62,7 @@ export const AddRole = (title,list_permissions) => {
              headers: {"Authorization" :`Bearer ${token}`} ,
              "Content-Type": "multipart/form-data" 
             })
-            console.log(response.data);
+            
     };
 } 
 

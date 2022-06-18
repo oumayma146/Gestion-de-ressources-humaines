@@ -25,7 +25,12 @@ import { cilMagnifyingGlass, cilTrash } from '@coreui/icons'
 import Modal from '../Modal'
 import { useDispatch, useSelector } from 'react-redux'
 import DeleteModal from '../DeleteModal'
-import { AddPermission, DeletePermission, getPermission, SearchPermission } from 'src/store/action/permission'
+import {
+  AddPermission,
+  DeletePermission,
+  getPermission,
+  SearchPermission,
+} from 'src/store/action/permission'
 import PermissionFrom from '../From/Permission'
 
 const Permission = () => {
@@ -44,23 +49,20 @@ const Permission = () => {
   const [visible, setVisible] = useState(false)
   const [Delete, setDelete] = useState(false)
   const [name, setName] = useState()
-  const [guard_name, setGuard_name] = useState()
   const [idOfElementToBeDeleted, setIdOfElementToBeDeleted] = useState()
   const onPressDeleteHandler = (id) => {
     setDelete(!Delete)
     setIdOfElementToBeDeleted(id)
   }
   const addPermissionHandler = () => {
-    dispatch(AddPermission(name, guard_name)).then(() => {
-      dispatch(getPermission())
+    dispatch(AddPermission(name)).then(() => {
       setVisible(false)
-      setName('')
-      setStartDate('')
+      setName()
+      dispatch(getPermission())
     })
   }
   const SearchPermissionHandler = (name) => {
- 
-   dispatch(SearchPermission(name))
+    dispatch(SearchPermission(name))
   }
   return (
     <>
@@ -77,11 +79,13 @@ const Permission = () => {
                 <CInputGroupText>
                   <CIcon icon={cilMagnifyingGlass} />
                 </CInputGroupText>
-                <CFormInput type="search"
+                <CFormInput
+                  type="search"
                   placeholder="Search for..."
                   value={name}
-                  onChange={(e) => setName(e.target.value)} />
-                <CButton color="primary" size="sm" onClick={(e) =>SearchPermissionHandler(name)}>
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <CButton color="primary" size="sm" onClick={(e) => SearchPermissionHandler(name)}>
                   Search
                 </CButton>
                 <div style={{ width: '400px' }}> </div>
@@ -92,7 +96,6 @@ const Permission = () => {
                   title={'Add new Permission'}
                   visible={visible}
                   setVisible={setVisible}
-               
                 >
                   <PermissionFrom
                     name={name}

@@ -3,13 +3,15 @@ import { CButton, CCol, CForm, CFormCheck, CFormInput, CFormLabel, CFormSelect }
 import React from 'react'
 
 
-export default function PermissionFrom({name,setName,addHandler, setGuard_name}) {
+export default function PermissionFrom({name,setName,addHandler}) {
     const addNameHandler =(e)=>{
         setName(e.target.value)
       }
-   
+      const onSubmit = (e) => {
+        e.preventDefault()
+      }
   return (
-    <CForm className="row g-3">
+    <CForm className="row g-3" onSubmit={onSubmit}>
     <CCol md={12}>
       <CFormLabel htmlFor="inputName">Permission Name</CFormLabel>
       <CFormInput type="name" value={name} onInput={e => addNameHandler(e)}    id="validationDefault01"

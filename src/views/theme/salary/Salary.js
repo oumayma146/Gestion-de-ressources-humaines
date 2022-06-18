@@ -68,7 +68,7 @@ const Salary = () => {
     setIdOfElementToBeDeleted(id)
     dispatch(getSalary())
   }
-  const addSalaryHandler = () => {console.log(name);
+  const addSalaryHandler = () => {
     dispatch(AddSalary(startdate, chargepaternes, grosssalary, name.value)).then(() => {
       dispatch(getSalary())
       setVisible(false)

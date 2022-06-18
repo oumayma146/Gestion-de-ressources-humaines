@@ -239,7 +239,7 @@ const Employee = () => {
         Certificates,
       ),
       setVisible(false),
-      dispatch(getEmployee()),
+      
       setGender(''),
       setBAnum(''),
       setEducation([{ id: Math.random(), diplome: '' }]),
@@ -262,6 +262,7 @@ const Employee = () => {
       setRole([]),
       setType(''),
       setDescription(''),
+      dispatch(getEmployee()),
     )
   }
   return (
